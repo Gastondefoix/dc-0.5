@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Diritto Commerciale // SYNTHWAVE EDITION</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00f0ff;
+  --cyan-dim: #00f0ff22;
+  --cyan-glow: #00f0ff88;
+  --orange: #ff6f00;
+  --magenta: #ff2eaa;
+  --magenta-dim: #ff2eaa22;
+  --bg: #000000;
+  --bg2: #000000;
+  --bg3: #000000;
+  --text: #e0e0e8;
+  --text-dim: #666677;
+  --border: #333344;
+  --font: 'JetBrains Mono', monospace;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grid floor */
+.grid-bg {
+  position: fixed;
+  bottom: 0; left: 0;
+  width: 100%; height: 40vh;
+  background:
+    linear-gradient(180deg, transparent 0%, var(--bg) 60%),
+    repeating-linear-gradient(90deg, var(--cyan-dim) 0px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg, var(--cyan-dim) 0px, transparent 1px, transparent 60px);
+  perspective: 400px;
+  transform: rotateX(55deg);
+  transform-origin: bottom;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--cyan), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  line-height: 1.2;
+}
+
+.header .sub {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* MODE SWITCH */
+.mode-switch {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mode-btn:not(:last-child) { border-right: 1px solid var(--border); }
+
+.mode-btn.active {
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  text-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.mode-btn:hover:not(.active) { background: rgba(0, 240, 255, 0.04); color: var(--text); }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tab.active {
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.tab:hover:not(.active) { border-color: var(--text-dim); color: var(--text); }
+
+/* SEARCH */
+.search-wrap {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-wrap input:focus { border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-dim); }
+
+.search-wrap input::placeholder { color: var(--text-dim); }
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stats .score { color: var(--cyan); }
+
+/* QA LIST */
+.qa-list { display: flex; flex-direction: column; gap: 8px; }
+
+.qa-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.qa-item:hover { border-color: var(--cyan); }
+
+.qa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 16px;
+  cursor: pointer;
+  background: #000000;
+  gap: 10px;
+  transition: background 0.15s;
+}
+
+.qa-header:hover { background: rgba(0, 240, 255, 0.04); }
+
+.qa-num {
+  color: var(--cyan);
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 28px;
+  padding-top: 2px;
+  opacity: 0.7;
+}
+
+.qa-title {
+  flex: 1;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.qa-arrow {
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+  padding-top: 4px;
+}
+
+.qa-arrow.open { transform: rotate(180deg); color: var(--cyan); }
+
+.qa-answer {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  background: #000000;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.qa-answer.show { display: block; animation: fadeIn 0.2s ease; }
+
+.qa-answer strong { color: var(--cyan); font-weight: 600; }
+.qa-answer em { color: var(--orange); font-style: italic; }
+
+/* DEEPDIVE button */
+.deepdive-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 14px;
+  background: var(--magenta-dim);
+  color: var(--magenta);
+  border: 1px solid var(--magenta);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.2s;
+}
+
+.deepdive-btn:hover { background: var(--magenta); color: #000000; }
+
+.deepdive-content {
+  display: none;
+  margin-top: 12px;
+  padding: 14px;
+  border-left: 3px solid var(--magenta);
+  background: #000000;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.deepdive-content.show { display: block; animation: fadeIn 0.25s ease; }
+
+.deepdive-content strong { color: var(--magenta); }
+.deepdive-content em { color: var(--orange); }
+
+/* BADGES */
+.badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.badge-masi { background: transparent; color: var(--orange); border: 1px solid var(--orange); }
+.badge-morello { background: transparent; color: var(--orange); border: 1px solid var(--orange); }
+.badge-martucci { background: transparent; color: var(--orange); border: 1px solid var(--orange); }
+.badge-extra { background: transparent; color: var(--orange); border: 1px solid var(--orange); }
+
+/* QUIZ MODE */
+.quiz-container { display: none; }
+.quiz-container.active { display: block; }
+
+.quiz-card {
+  background: #000000;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+}
+
+.quiz-progress {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--cyan);
+  transition: width 0.4s ease;
+}
+
+.quiz-question {
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+.quiz-actions { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-reveal-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+
+.quiz-reveal-btn:hover { background: var(--cyan-dim); }
+
+.quiz-answer-box {
+  display: none;
+  text-align: left;
+  padding: 16px;
+  background: #000000;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.quiz-answer-box.show { display: block; animation: fadeIn 0.25s ease; }
+.quiz-answer-box strong { color: var(--cyan); }
+.quiz-answer-box em { color: var(--orange); }
+
+.quiz-rate {
+  display: none;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.quiz-rate.show { display: flex; }
+
+.rate-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s;
+}
+
+.rate-btn:hover { border-color: var(--text); }
+.rate-btn.r-bad { border-color: var(--magenta); color: var(--magenta); }
+.rate-btn.r-bad:hover { background: var(--magenta-dim); }
+.rate-btn.r-ok { border-color: var(--orange); color: var(--orange); }
+.rate-btn.r-ok:hover { background: rgba(255, 111, 0, 0.13); }
+.rate-btn.r-good { border-color: var(--cyan); color: var(--cyan); }
+.rate-btn.r-good:hover { background: var(--cyan-dim); }
+
+.quiz-score-final {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.quiz-score-final .big {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cyan), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.quiz-score-final .label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 0.5rem;
+}
+
+.quiz-restart-btn {
+  margin-top: 2rem;
+  padding: 10px 24px;
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+
+.quiz-restart-btn:hover { background: var(--cyan); color: var(--bg); }
+
+/* STUDY LIST (non-quiz) */
+.study-container { display: block; }
+.study-container.hidden { display: none; }
+
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .app { padding: 1rem 0.75rem 3rem; }
+  .qa-header { padding: 10px 12px; }
+  .qa-answer { padding: 12px; }
+  .quiz-card { padding: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="app">
+  <div class="header">
+    <h1>DIRITTO COMMERCIALE</h1>
+    <div class="sub">// Prima Parte &mdash; Synthwave Study Mode</div>
+  </div>
+
+  <!-- MODE SWITCH -->
+  <div class="mode-switch">
+    <button class="mode-btn active" onclick="switchMode('study')">📖 Studio</button>
+    <button class="mode-btn" onclick="switchMode('quiz')">⚡ Quiz</button>
+  </div>
+
+  <!-- STUDY MODE -->
+  <div class="study-container" id="studyContainer">
+    <div class="tabs" id="tabs"></div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="cerca domanda o concetto..." oninput="filterQuestions(this.value)" id="searchInput" />
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="qa-list" id="qaList"></div>
+  </div>
+
+  <!-- QUIZ MODE -->
+  <div class="quiz-container" id="quizContainer">
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<script>
+// ====== DATA ======
+const QA = [
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Art. 2082 – Definizione di imprenditore",
+    a: `<strong>Art. 2082 c.c.:</strong> è imprenditore chi esercita <em>professionalmente</em> un'<em>attività economica organizzata</em> al fine della produzione o dello scambio di beni o servizi. I requisiti sono: <strong>(1) attività produttiva</strong> (produzione/scambio di beni o servizi); <strong>(2) organizzazione</strong> (impiego coordinato di fattori produttivi – capitale e/o lavoro – con un minimo di eterorganizzazione); <strong>(3) metodo economico</strong> (i ricavi coprono almeno i costi – non è necessario lo scopo di lucro); <strong>(4) professionalità</strong> (abitualità e non occasionalità dell'attività).`,
+    deep: `<strong>I tre requisiti dibattuti:</strong> l'art. 2082 enuncia i requisiti <em>certi</em> (attività produttiva, organizzazione, metodo economico, professionalità). Restano discussi: <em>(a)</em> la <strong>liceità</strong>: opinione prevalente è che la qualifica d'imprenditore spetti anche all'imprenditore illecito; <em>(b)</em> lo <strong>scopo di lucro</strong>: non richiesto (cfr. impresa pubblica, cooperativa, impresa sociale); <em>(c)</em> la <strong>destinazione al mercato</strong>: nessuna norma lo esige espressamente, anche la produzione per uso proprio può costituire impresa.<br><br><strong>Organizzazione – eterorganizzazione vs autoorganizzazione:</strong> non è concepibile impresa senza l'impiego coordinato di fattori produttivi (capitale e/o lavoro). La presenza di lavoratori non è indispensabile: anche il titolare di una gioielleria o di una lavanderia automatica a gettoni è imprenditore, organizzando capitali e il proprio lavoro. Però la <em>semplice autoorganizzazione del proprio lavoro</em> non basta: un elettricista che usa solo telefono e auto non è imprenditore (al limite utilizza strumenti essenziali per qualsiasi attività). Occorre un minimo di <em>eterorganizzazione</em> (impiego di lavoro altrui e/o di capitale). Anche senza un complesso aziendale fisicamente percepibile, l'attività di investimento o finanziamento svolta con organizzazione e professionalità è impresa (es. le società finanziarie).<br><br><strong>Economicità e prezzo politico:</strong> i ricavi devono coprire almeno i costi. Non è imprenditore chi eroga beni o servizi gratuitamente o a <em>prezzo politico</em> (es. associazione privata che gestisce un ospedale a prezzo simbolico). Lo scopo di lucro non è richiesto: impresa pubblica, cooperativa e impresa sociale dimostrano che l'<em>economicità della gestione</em> è il requisito minimo, non il profitto. Ne consegue che associazioni e fondazioni con scopo ideale o altruistico che producono beni o servizi con metodo economico (es. un'associazione che gestisce un teatro) sono imprenditori.<br><br><strong>Professionalità – casi particolari:</strong> non è imprenditore chi compie un'isolata operazione di acquisto-rivendita, né chi organizza un singolo spettacolo sportivo. Tuttavia: <em>(a)</em> le <strong>attività stagionali</strong> (stabilimento balneare, rifugio alpino) sono professionali se si ripetono costantemente secondo le cadenze di quel settore; <em>(b)</em> la professionalità non esige che l'impresa sia l'attività unica o principale: è imprenditore anche il professore o l'impiegato che gestisce un negozio o un albergo; <em>(c)</em> è imprenditore anche il <strong>costruttore di un singolo edificio</strong>, se l'affare richiede organizzazione complessa e più operazioni collegate tra loro.<br><br><strong>Impresa illecita – debole e forte:</strong> si distingue l'illiceità "debole" (es. esercizio di attività bancaria senza autorizzazione) da quella "forte" (es. traffico di stupefacenti). In entrambi i casi l'opinione prevalente riconosce la qualità d'imprenditore, ma chi svolge attività illecita non può beneficiare delle tutele previste per l'imprenditore nei rapporti con i terzi (azienda, segni distintivi, concorrenza sleale).<br><br><strong>Impresa per conto proprio:</strong> anche la produzione destinata all'uso personale può essere impresa, purché condotta con metodo economico. Il costruttore di un edificio per uso proprio sostituisce un costo con un risparmio di spesa o un incremento patrimoniale: ciò è sufficiente per integrare il metodo economico. Vi sono inoltre esigenze di tutela verso i fornitori che hanno contribuito con beni o servizi alla realizzazione. Nessuna norma richiede espressamente la destinazione al mercato.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Imprenditore commerciale (art. 2195)",
+    a: `È imprenditore commerciale chi esercita: <strong>(1)</strong> attività industriale per la produzione di beni/servizi; <strong>(2)</strong> attività intermediaria nella circolazione dei beni (commercio); <strong>(3)</strong> trasporto per terra, acqua o aria; <strong>(4)</strong> attività bancaria o assicurativa; <strong>(5)</strong> attività ausiliarie delle precedenti (agenzia, mediazione, deposito, ecc.). L'elenco non è tassativo: è commerciale ogni impresa non qualificabile come agricola. Rispetto al piccolo imprenditore, è soggetto allo <strong>statuto speciale</strong>: registro delle imprese, scritture contabili, liquidazione giudiziale.`,
+    deep: `<strong>Statuto speciale dell'imprenditore commerciale:</strong> chi è imprenditore commerciale non piccolo è assoggettato a: <em>(a)</em> iscrizione nel registro delle imprese con effetti di pubblicità legale; <em>(b)</em> rappresentanza commerciale (institori, procuratori, commessi – artt. 2203-2213); <em>(c)</em> scritture contabili obbligatorie (artt. 2214-2220); <em>(d)</em> liquidazione giudiziale e concordato preventivo (CCI, d.lgs. 14/2019); <em>(e)</em> amministrazione straordinaria delle grandi imprese insolventi (d.lgs. 270/1999 e d.l. 347/2003).<br><br><strong>Statuto generale dell'imprenditore (applicabile a tutti):</strong> la disciplina dell'azienda (artt. 2555-2562), i segni distintivi (artt. 2563-2574), la concorrenza e i consorzi (artt. 2595-2620). Si applica a tutti gli imprenditori – agricoli, commerciali, piccoli – la legge antitrust (l. 287/1990) e le misure del CCI.<br><br><strong>Imprese civili?</strong> Si è discusso a lungo sull'esistenza di una terza categoria ("impresa civile") per attività come quelle estrattive, minerarie o di produzione di gas, che producono beni senza trasformare materie prime in senso stretto. L'introduzione di questa categoria è considerata problematica e la tesi prevalente la rifiuta: ogni impresa non qualificabile come agricola è commerciale ai sensi dell'art. 2195.<br><br><strong>Imprenditore agricolo esonerato:</strong> non è tenuto alle scritture contabili, non è soggetto alla liquidazione giudiziale (ma può accedere alle procedure da sovraindebitamento: liquidazione controllata, concordato minore). Gode di agevolazioni fiscali e creditizie previste dalla legislazione speciale. Tuttavia può stipulare la "convenzione di moratoria" con i creditori, strumento concorsuale non precluso agli agricoli.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Piccolo imprenditore e impresa minore",
+    a: `<strong>Art. 2083 c.c.:</strong> è piccolo imprenditore chi esercita un'attività professionale organizzata prevalentemente col lavoro proprio e dei familiari (es. artigiano, piccolo commerciante, coltivatore diretto). Il piccolo imprenditore è esonerato dalla tenuta delle scritture contabili e dallo statuto dell'imprenditore commerciale. L'iscrizione nel registro delle imprese ha solo funzione di pubblicità-notizia. Il CCI definisce <strong>impresa minore</strong> quella al di sotto di soglie dimensionali (attivo ≤300k€, ricavi ≤200k€, debiti ≤500k€): non è soggetta alla liquidazione giudiziale ma può accedere alle procedure da sovraindebitamento.`,
+    deep: `<strong>Criterio di prevalenza – senso qualitativo-funzionale:</strong> la prevalenza del lavoro familiare va intesa in senso <em>qualitativo-funzionale</em>: l'apporto dell'imprenditore e dei suoi familiari deve caratterizzare i beni o servizi prodotti. Esempi tipici: il sarto su misura, il piccolo commerciante ambulante, il modesto agente di commercio. Non è piccolo imprenditore chi investe ingenti capitali nell'impresa, anche senza avvalersi di alcun collaboratore (es. un gioielliere con beni rilevanti).<br><br><strong>Impresa artigiana (legge quadro 443/1985):</strong> definizione più ampia di quella ex art. 2083. Si fonda su: <em>(a)</em> <strong>oggetto</strong>: qualsiasi produzione di beni (anche semilavorati) o prestazione di servizi; <em>(b)</em> <strong>ruolo dell'artigiano</strong>: deve svolgere in misura prevalente il proprio lavoro, anche manuale, nel processo produttivo, ma non è richiesto che il suo lavoro prevalga sugli altri fattori produttivi. Di conseguenza, i limiti sui dipendenti sono variabili per settore e spesso poco compatibili con il principio di prevalenza ex art. 2083: una sartoria con 40 dipendenti può essere qualificata come artigiana! La qualifica artigiana è riconoscibile anche a società di persone, Srl e cooperative a determinate condizioni. Tuttavia, il riconoscimento artigiano ai sensi della legge quadro non basta per sottrarre l'artigiano allo statuto dell'imprenditore commerciale: per questo occorre rispettare il criterio di prevalenza dell'art. 2083 c.c. In mancanza, sarà artigiano ai soli fini delle agevolazioni regionali, ma soggetto alle regole dell'imprenditore commerciale anche in ambito concorsuale.<br><br><strong>Il "rompicapo" pre-CCI – doppia nozione di piccolo imprenditore:</strong> la vecchia legge fallimentare aveva una propria definizione di piccolo imprenditore (basata su soglie quantitative di reddito e capitale investito), del tutto diversa da quella codicistica fondata sulla prevalenza. Il coordinamento tra le due creava grande incertezza in sede di dichiarazione di fallimento. Con il CCI, si è sancita la separazione definitiva: il Codice Civile definisce chi è piccolo imprenditore; il CCI individua i parametri dimensionali (<em>impresa minore</em>) al di sotto dei quali non si apre la liquidazione giudiziale, usando volutamente una nomenclatura diversa.<br><br><strong>Soglie impresa minore (CCI) – una sola basta:</strong> basta superare anche <em>una sola</em> delle tre soglie (attivo ≤300.000€, ricavi ≤200.000€, debiti ≤500.000€) per essere esposti alla liquidazione giudiziale. La prova del rispetto di tutti e tre i limiti è a carico del debitore. Novità rispetto alla legge fallimentare: anche le <strong>società commerciali</strong> possono essere esonerate dalla liquidazione giudiziale se rispettano le soglie, purché non svolgano attività commerciale rilevante.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Imprenditore agricolo (art. 2135)",
+    a: `<strong>Dopo d.lgs. 228/2001:</strong> è imprenditore agricolo chi esercita <em>attività agricole essenziali</em> (coltivazione del fondo, selvicoltura, allevamento di animali), definite come attività dirette alla cura e sviluppo di un <em>ciclo biologico</em>, anche senza sfruttamento della terra. Si prescinde dal fondo: rientrano coltivazioni fuori terra, allevamenti in batteria, acquacoltura. <strong>Attività connesse:</strong> manipolazione, conservazione, trasformazione, commercializzazione di prodotti <em>prevalentemente</em> propri e fornitura di beni/servizi con <em>prevalente</em> utilizzo di risorse aziendali (incluso agriturismo). È esonerato dallo statuto speciale commerciale.`,
+    deep: `<strong>Ratio del trattamento di favore – "doppio rischio":</strong> l'imprenditore agricolo è esonerato dallo statuto speciale commerciale perché esposto a un <em>doppio rischio</em>: il rischio economico (comune a tutte le imprese) e il rischio ambientale tipico dell'agricoltura (maltempo, malattie del bestiame, calamità naturali). Per questo motivo il legislatore ha storicamente accordato un trattamento di favore, accentuato da legislazione speciale con incentivi fiscali e agevolazioni creditizie.<br><br><strong>Contrasto dottrinale pre-2001 e scelta del legislatore:</strong> con il progresso tecnologico, l'impresa agricola fondata sul semplice sfruttamento del suolo cede il passo all'agricoltura industrializzata, che prescinde spesso dalla terra (coltivazioni fuori terra, allevamenti in batteria). Si era formato un netto contrasto in dottrina e giurisprudenza: da un lato chi riteneva agricola solo l'attività basata su un ciclo biologico naturale; dall'altro chi dava rilievo al modo di produzione tipico dell'agricoltore (sfruttamento del fondo e delle sue risorse). Il d.lgs. 228/2001 ha optato per la prima impostazione, recependo la nozione di <em>cura e sviluppo di un ciclo biologico</em>.<br><br><strong>Coltivazione del fondo – prescinde dal fondo:</strong> si prescinde dallo sfruttamento della terra. Rientrano nell'attività essenziale: orticoltura, coltivazioni in serra o in vivai, floricultura, coltivazione di ortaggi e frutta anche fuori terra. Ciò che conta è la cura e lo sviluppo di un ciclo biologico vegetale o animale.<br><br><strong>Selvicoltura:</strong> deve essere concepita come attività caratterizzata dalla cura del bosco per ricavarne i relativi prodotti. Non costituisce attività agricola essenziale la <em>semplice estrazione di legname</em> dal bosco.<br><br><strong>Connessione soggettiva + oggettiva:</strong> le attività connesse (manipolazione, conservazione, trasformazione, commercializzazione, fornitura di beni/servizi con attrezzature aziendali, agriturismo) sono oggettivamente commerciali ma diventano agricole se: <em>(a)</em> chi le esercita è già imprenditore agricolo essenziale (<em>connessione soggettiva</em>); <em>(b)</em> riguardano prodotti ottenuti prevalentemente dall'attività essenziale o beni/servizi realizzati con attrezzature aziendali (<em>connessione oggettiva</em>). È sufficiente che le connesse non prevalgano, per rilievo economico, sull'essenziale. Il viticoltore che produce e vende il vino delle proprie uve è agricolo; chi acquista uve da terzi e produce vino è commerciale.<br><br><strong>Allevamento – ampliamento del 2001:</strong> il termine "bestiame" è sostituito con "animali": comprende bovini, caprini, equini, suini, pollame, conigli, pesci e mitili (acquacoltura), cavalli da corsa, animali da pelliccia, gatti e attività cinotecnica (allevamento e selezione di razze canine). Costituisce attività essenziale anche la zootecnia svolta fuori dal fondo (allevamenti in batteria). Equiparato all'imprenditore agricolo: l'<em>imprenditore ittico</em> che esercita pesca professionale.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Impresa pubblica: le tre forme e privatizzazione",
+    a: `L'impresa pubblica si articola in <strong>tre forme principali</strong>: <em>(1) enti pubblici economici</em>: persone giuridiche di diritto pubblico che esercitano attività d'impresa come oggetto principale (es. vecchio IRI, ENI prima della privatizzazione); <em>(2) società a partecipazione pubblica</em>: SpA o Srl di diritto privato con socio pubblico, anche di maggioranza (es. Enel, Eni, Poste Italiane — disciplinate dal <strong>d.lgs. 175/2016 TUSP</strong>); <em>(3) imprese-organo</em>: attività imprenditoriale svolta direttamente da un ente pubblico non economico tramite un'organizzazione interna separata ma priva di personalità giuridica propria. Dal 1990, il processo di <strong>privatizzazione</strong> ha trasformato quasi tutti gli enti pubblici economici in SpA, mantenendo la partecipazione pubblica tramite MEF o Cassa Depositi e Prestiti. Il <strong>principio di neutralità UE</strong> (art. 345 TFUE) è indifferente alla proprietà pubblica o privata purché le regole concorrenziali siano rispettate.`,
+    deep: `<strong>Enti pubblici economici:</strong> persone giuridiche di diritto pubblico la cui creazione, struttura e scioglimento dipendono da leggi speciali, ma la cui attività è soggetta alle norme del Codice Civile (compreso lo statuto dell'imprenditore commerciale). Esempi storici: IRI (liquidato nel 2000), ENI prima della trasformazione in SpA, ENEL prima della privatizzazione. Oggi sopravvivono principalmente nelle aziende speciali degli enti locali e in talune holding pubbliche regionali.<br><br><strong>Società a partecipazione pubblica (TUSP, d.lgs. 175/2016):</strong> le PA possono partecipare solo a società con oggetto strettamente necessario ai fini istituzionali. Princìpi: divieto di partecipazione in società con oggetto non necessario; piani periodici di revisione delle partecipazioni; obbligo di dismissione se non giustificate; disciplina civilistica applicabile integralmente, salvo deroghe (es. in caso di insolvenza, alcune SpA a partecipazione pubblica con finalità di servizio pubblico sono soggette a <em>liquidazione coatta amministrativa</em> anziché giudiziale).<br><br><strong>Imprese-organo:</strong> ente pubblico non economico (es. Comune, Regione) che gestisce direttamente un'attività commerciale tramite un'organizzazione interna. Non ha personalità giuridica autonoma; i terzi contrattano con l'ente pubblico. Il regime giuridico applicabile è controverso: si applicano le norme sull'imprenditore commerciale ma non la liquidazione giudiziale (si applicano invece procedure speciali o la liquidazione coatta amministrativa).<br><br><strong>Privatizzazione — due ondate:</strong> la prima (formale, 1992-1993) ha trasformato gli enti pubblici economici in SpA mantenendo il 100% pubblico (IRI → Finmeccanica, Stet ecc.; ENI SpA, ENEL SpA). La seconda (sostanziale, 1994-2000) ha ceduto quote al mercato tramite Offerte Pubbliche di Vendita (OPV), mantenendo spesso partecipazioni di controllo tramite la <em>golden share</em> (poi dichiarata incompatibile con il diritto UE). La Cassa Depositi e Prestiti (CDP SpA) è oggi il principale veicolo di partecipazione pubblica nelle grandi imprese strategiche (ENI, Enel, Poste, ecc.).<br><br><strong>Principio di neutralità UE (art. 345 TFUE) e art. 106 TFUE:</strong> il diritto UE è neutro rispetto alla titolarità pubblica o privata delle imprese. Tuttavia, le imprese pubbliche e quelle titolari di diritti speciali o esclusivi sono soggette alle regole sulla concorrenza (art. 106 TFUE): lo Stato non può accordare loro privilegi che falsino la concorrenza. La Commissione può intervenire contro gli aiuti di Stato impropri a favore di imprese pubbliche (artt. 107-109 TFUE).`
+  },
+  {
+    prof: ["Extra"],
+    q: "Inizio e fine dell'impresa: principio di effettività (art. 33 CCI)",
+    a: `Il <strong>principio di effettività</strong> governa sia l'inizio sia la fine dell'impresa: rileva l'esercizio concreto dell'attività, non le formalità giuridiche. <strong>Inizio:</strong> la qualità di imprenditore si acquista con l'avvio effettivo delle operazioni di produzione o scambio, non con la semplice <em>fase di organizzazione preliminare</em> (acquisto attrezzature, locazione locali, assunzione dipendenti). <strong>Fine:</strong> non coincide con la cessazione formale né con la cancellazione dal registro, ma con il completamento delle operazioni di liquidazione. Finché pendono rapporti giuridici inerenti all'impresa, questa continua ad esistere per quegli effetti. <strong>Art. 33 CCI:</strong> entro <strong>12 mesi</strong> dalla cancellazione dal registro delle imprese può ancora aprirsi la liquidazione giudiziale per debiti anteriori alla cancellazione.`,
+    deep: `<strong>Inizio — quando inizia la qualità di imprenditore:</strong> la tesi prevalente richiede l'avvio concreto dell'attività produttiva: non bastano la firma del contratto d'affitto dei locali, l'acquisto dei macchinari o l'assunzione dei dipendenti. Occorre che l'imprenditore abbia compiuto almeno un'operazione rientrante nell'oggetto dell'impresa. Tuttavia, non è necessaria la prima vendita al cliente: anche la produzione di beni ancora non venduti può configurare l'inizio. La fase preparatoria è "pre-impresa": i debiti contratti per organizzare la futura attività non sono debiti d'impresa in senso tecnico.<br><br><strong>Rilevanza pratica dell'inizio:</strong> dal momento dell'inizio decorrono tutti gli obblighi dello statuto speciale: iscrizione nel registro delle imprese, tenuta delle scritture contabili, applicabilità della liquidazione giudiziale. La data di inizio è rilevante anche ai fini della <em>revocatoria concorsuale</em>: il periodo sospetto si calcola a ritroso dalla domanda di apertura della procedura, non dalla data di inizio dell'attività.<br><br><strong>Fine — tre momenti distinti:</strong> si distingue tra: <em>(a)</em> <strong>cessazione dell'attività</strong> (l'imprenditore smette di operare); <em>(b)</em> <strong>liquidazione del patrimonio</strong> (fase di dismissione dei beni, incasso crediti, pagamento debiti — ancora "impresa" se svolta con organizzazione e metodo economico); <em>(c)</em> <strong>estinzione della qualità</strong> (quando tutti i rapporti sono definiti). Per le <em>società</em>, la cancellazione dal registro ha effetto costitutivo (art. 2495 c.c.): le società si estinguono con la cancellazione, indipendentemente da residui pendenti.<br><br><strong>Art. 33 CCI — termine annuale:</strong> per i debitori individuali che hanno cessato l'attività e si sono cancellati, la liquidazione giudiziale può ancora essere aperta entro 12 mesi dalla cancellazione, per debiti contratti durante l'attività. Il termine ha lo scopo di evitare che l'imprenditore si "cancelli" per sfuggire alla procedura. Decorso il termine, i creditori possono solo agire individualmente.<br><br><strong>Imprenditore "di fatto":</strong> chi esercita un'attività commerciale senza le dovute iscrizioni è comunque imprenditore, con piena applicazione del relativo statuto. Non ci sono deroghe alla qualifica per violazione di obblighi formali. L'imprenditore di fatto è assoggettabile alla liquidazione giudiziale anche se privo di iscrizione al registro.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Capacità e impresa: incapaci e impresa commerciale",
+    a: `La regola è che l'esercizio dell'impresa commerciale richiede la <strong>piena capacità d'agire</strong>. Il sistema distingue: <em>Minore d'età e interdetto</em>: non possono <em>iniziare</em> un'impresa; possono <strong>continuarla</strong> tramite il rappresentante legale, previa autorizzazione del tribunale dei minorenni (minore) o del giudice tutelare (interdetto). <em>Inabilitato e minore emancipato</em>: possono continuare un'impresa preesistente con autorizzazione, ma non iniziarne una nuova; il minore emancipato autorizzato acquista la piena capacità d'agire per tutti gli atti d'impresa. <em>Amministrazione di sostegno</em>: il giudice tutelare definisce granularmente i poteri del beneficiario e può autorizzare la prosecuzione o l'inizio dell'impresa. L'obiettivo è proteggere il patrimonio dell'incapace evitando esposizione ai rischi commerciali illimitati.`,
+    deep: `<strong>Fondamento della distinzione inizio/continuazione:</strong> il divieto assoluto di esercizio avrebbe conseguenze economiche negative per il patrimonio dell'incapace (es. distruzione del valore dell'azienda ereditata). Di qui il bilanciamento: la <em>continuazione</em> è ammessa (con controllo giurisdizionale), l'<em>inizio ex novo</em> è vietato salvo emancipazione piena.<br><br><strong>Minore d'età:</strong> il minore non emancipato non può compiere atti giuridici autonomamente. Se eredita un'impresa, i genitori (o il tutore) chiedono al <em>tribunale dei minorenni</em> di autorizzarne la continuazione. Con l'autorizzazione, il rappresentante compie gli atti necessari ma il titolare dell'impresa rimane il minore: la qualità d'imprenditore è del minore, i debiti gravano sul suo patrimonio. Il rappresentante risponde eventualmente per <em>mala gestio</em>.<br><br><strong>Minore emancipato:</strong> il minore emancipato (a seguito di matrimonio) ha capacità d'agire limitata agli atti di ordinaria amministrazione. Per atti di straordinaria amministrazione necessita dell'assistenza del curatore. Con l'autorizzazione del tribunale a esercitare l'impresa commerciale acquista la <strong>piena capacità d'agire</strong> per tutti gli atti connessi. Non può però iniziare un'impresa ex novo.<br><br><strong>Interdetto:</strong> totalmente privo di capacità d'agire. Il tutore lo rappresenta. Per continuare un'impresa di cui l'interdetto è titolare, il tutore deve ottenere autorizzazione dal giudice tutelare, che può subordinarla alla prestazione di garanzie. Qualità d'imprenditore spetta all'interdetto; il tutore agisce come rappresentante.<br><br><strong>Inabilitato:</strong> può compiere atti di ordinaria amministrazione autonomamente; per atti di straordinaria amministrazione deve essere assistito dal curatore. Tutti gli atti d'impresa sono straordinaria amministrazione: necessita sempre dell'assistenza del curatore e dell'autorizzazione del tribunale per continuare l'attività.<br><br><strong>Amministrazione di sostegno (l. 6/2004):</strong> strumento flessibile: il decreto di nomina definisce puntualmente gli atti che il beneficiario non può compiere autonomamente. Il giudice tutelare può autorizzare la continuazione o l'inizio dell'impresa, specificando con quali limitazioni. Se le capacità residue lo consentono, il beneficiario può gestire autonomamente la parte dell'impresa non coperta dalle limitazioni del decreto.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Registro delle imprese: sezioni, pubblicità legale e notizia, efficacia",
+    a: `Il registro è tenuto presso le Camere di commercio. <strong>Sezione ordinaria:</strong> imprenditori commerciali non piccoli, tutte le società (tranne s.s.), consorzi con attività esterna, enti pubblici commerciali. <strong>Sezioni speciali:</strong> piccoli imprenditori, imprenditori agricoli, s.s., artigiani, start-up innovative, imprese sociali, ecc.<br><br><strong>Efficacia nella sezione ordinaria:</strong> <em>dichiarativa</em> (di regola: rende opponibile ai terzi); <em>costitutiva</em> (per SpA, Srl, cooperative: senza iscrizione la società non esiste); <em>normativa</em> (per s.n.c./s.a.s.: l'iscrizione determina il regime giuridico applicabile). Nelle sezioni speciali, di regola solo pubblicità notizia; eccezione: imprenditori agricoli hanno pubblicità legale dal 2001.`,
+    deep: `<strong>Storia del registro – 50 anni di regime transitorio:</strong> il registro delle imprese era già previsto dal Codice Civile del 1942, ma non fu attivato per oltre cinquant'anni. Nel frattempo si applicò un regime transitorio: iscrizioni presso i registri di cancelleria dei tribunali, con il Busarl (Bollettino ufficiale delle SpA e srl) e il Busc (Bollettino ufficiale delle cooperative) per le relative forme societarie. Solo con la l. 580/1993 e il d.p.r. 581/1995 fu istituito l'attuale registro, diventato operativo nel 1997. Da allora esiste un unico registro ufficiale, gestito dalle Camere di Commercio, completamente informatizzato.<br><br><strong>Efficacia dichiarativa:</strong> <em>efficacia positiva immediata</em>: dall'iscrizione l'atto è opponibile ai terzi (per le società di capitali, opponibilità piena solo dopo 15 giorni). <em>Efficacia negativa</em>: senza iscrizione, l'atto non è opponibile ai terzi, ma l'imprenditore può dimostrare che il terzo ne era comunque a conoscenza. <strong>Efficacia costitutiva totale:</strong> per SpA, Srl e cooperative, senza iscrizione la società non esiste. <strong>Efficacia costitutiva parziale:</strong> es. delibera di riduzione del capitale di s.n.c.: senza iscrizione, i creditori non possono opporsi entro 3 mesi. <strong>Efficacia normativa:</strong> per s.n.c. e s.a.s. non iscritte, si applica la disciplina della società semplice (più svantaggiosa per i soci, soprattutto in tema di responsabilità).<br><br><strong>Procedimento:</strong> l'iscrizione avviene su domanda dell'interessato o d'ufficio se l'interessato è inadempiente. D'ufficio è prevista anche la cancellazione per iscrizioni errate o per imprese che hanno cessato l'attività. L'ufficio verifica regolarità formale e sostanziale (esistenza e veridicità dell'atto) ma non può rilevare nullità o annullabilità. Per atto pubblico o scrittura privata autenticata, l'iscrizione è immediata (il controllo di legalità è già stato effettuato dal notaio). Chi non adempie incorre in sanzioni pecuniarie amministrative.<br><br><strong>Sezione speciale e pubblicità legale agricola:</strong> dal 2001, anche gli imprenditori agricoli (anche piccoli) e le società semplici che svolgono attività agricola hanno pubblicità legale dalla sezione speciale: la distinzione originaria tra sezione ordinaria (pubblicità legale) e speciale (sola notizia) è in parte superata.<br><br><strong>Le 8 sezioni speciali:</strong> (1) imprenditori agricoli e piccoli imprenditori (+ artigiani); (2) società tra professionisti; (3) soggetti con attività di direzione e coordinamento; (4) imprese sociali; (5) atti in lingua straniera di società di capitali; (6) start-up innovative e incubatori certificati; (7) PMI innovative; (8) trasparenza antiriciclaggio (titolari effettivi e trust).`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Scritture contabili: obbligatorie ed efficacia probatoria",
+    a: `Obbligatorie per l'imprenditore commerciale non piccolo (art. 2214). <strong>Libri obbligatori:</strong> libro giornale (registro cronologico giornaliero) e libro degli inventari (stato patrimoniale annuale, chiuso col bilancio). Inoltre: corrispondenza commerciale e altre scritture in base a natura/dimensioni. Conservazione: 10 anni.<br><br><strong>Efficacia probatoria:</strong> le scritture possono essere usate <em>contro</em> l'imprenditore anche se irregolari. Per usarle <em>a proprio favore</em>: devono essere regolari, la controparte deve essere imprenditore, e la controversia riguardi l'impresa.`,
+    deep: `<strong>Duplice rilevanza delle scritture:</strong> la tenuta delle scritture ha un duplice ruolo: <em>rilevanza interna</em> (forniscono all'imprenditore uno strumento di controllo e consapevolezza sull'andamento dell'attività) e <em>rilevanza esterna</em> (garantiscono trasparenza nei rapporti con terzi, creditori e autorità).<br><br><strong>Sistema misto (art. 2214):</strong> il legislatore impone libri specifici (giornale, inventari) e, con clausola aperta, tutte le scritture richieste dalla natura e dimensione dell'impresa: <em>libro mastro</em> (sistematico per tipo di operazione/cliente), <em>libro cassa</em> (entrate/uscite di denaro), <em>libro magazzino</em> (operazioni sulle merci), <em>registri tributari</em> (registro fatture, libro cespiti, ecc.). Le scritture contabili sono disciplinate anche dalla legislazione tributaria che solo in parte coincide con il Codice Civile: la legge fiscale impone scritture anche a soggetti non imprenditori, come i professionisti.<br><br><strong>Libri principali:</strong> il <em>libro giornale</em> registra le operazioni giorno per giorno nell'ordine di esecuzione; non occorre registrare separatamente ogni operazione se omogenee (es. importo complessivo delle vendite giornaliere). Il <em>libro degli inventari</em> è redatto all'inizio dell'attività e aggiornato annualmente; si chiude con il bilancio d'esercizio (Stato Patrimoniale + Conto Economico), che deve riflettere con evidenza e verità la situazione del patrimonio. Le società commerciali (tranne la semplice) e le imprese sociali sono obbligate alle scritture anche se non esercitano attività commerciale.<br><br><strong>Formalità estrinseche e intrinseche:</strong> le scritture devono essere redatte senza spazi in bianco, interlinee o parole cancellate ancora leggibili. Le formalità burocratiche sono oggi semplificate (non è più richiesta la vidimazione o la bollatura) per agevolare l'uso di strumenti digitali. Conservazione obbligatoria: 10 anni, anche su supporti informatici.<br><br><strong>Efficacia probatoria:</strong> le scritture, anche se irregolari, possono essere usate <em>contro</em> l'imprenditore da parte di terzi; questi però non possono estrapolare solo le parti favorevoli e l'imprenditore può sempre contestarne la veridicità. Per usarle <em>a proprio favore</em> l'imprenditore deve soddisfare condizioni più rigorose: scritture regolari, controparte imprenditore, controversia relativa all'attività d'impresa. In ogni caso, la valutazione probatoria è rimessa all'apprezzamento del giudice.<br><br><strong>Sanzioni:</strong> chi non adempie all'obbligo rischia sanzioni pecuniarie amministrative. In caso di liquidazione giudiziale, l'assenza o l'irregolarità delle scritture può configurare reati di <em>bancarotta semplice</em> (art. 323 CCI) o <em>bancarotta fraudolenta</em> (art. 322 CCI), con conseguenze penali non solo per l'imprenditore ma, in taluni casi, anche per l'institore.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Institore: rappresentanza, poteri e opponibilità",
+    a: `<strong>Institore (art. 2203):</strong> ausiliario subordinato preposto all'intera impresa, a una sede o a un ramo. Ha <strong>potere di gestione generale</strong> e <strong>rappresentanza generale</strong> (sostanziale e processuale), anche senza procura espressa. Non può vendere/affittare l'impresa, né alienare/ipotecare immobili senza autorizzazione. I limiti ai poteri devono essere iscritti nel registro per essere opponibili ai terzi. Se omette di spendere il nome dell'imprenditore, è personalmente obbligato; ma anche l'imprenditore è obbligato se l'atto è pertinente all'impresa.`,
+    deep: `<strong>Institore assoluto vs relativo:</strong> l'institore può essere preposto all'intera impresa (<em>institore assoluto</em>) oppure solo a una sede secondaria o a un ramo autonomo dell'impresa (<em>institore relativo</em>), in questo caso potendo essere subordinato a un altro institore. È possibile che più institori siano contemporaneamente preposti all'impresa: in tal caso agiscono separatamente, salvo diversa disposizione nella procura.<br><br><strong>Potere di rappresentanza – automatico e ampio:</strong> anche in assenza di espressa procura, l'institore ha la facoltà di compiere in nome dell'imprenditore tutti gli atti necessari per l'esercizio dell'impresa (<em>rappresentanza sostanziale</em>). I limiti ai poteri devono essere pubblicati nel registro delle imprese per essere opponibili ai terzi: limitazioni non iscritte non producono effetti verso i terzi. Limiti assoluti (non derogabili neppure dalla procura): l'institore non può vendere o affittare l'azienda, né alienare o ipotecare beni immobili appartenenti all'imprenditore.<br><br><strong>Rappresentanza processuale:</strong> l'institore può stare in giudizio sia come attore (rappresentanza attiva) che come convenuto (rappresentanza passiva), non solo per gli atti compiuti da lui stesso ma anche per quelli dell'imprenditore.<br><br><strong>Responsabilità condivisa:</strong> l'institore condivide con l'imprenditore l'obbligo di iscrizione nel registro delle imprese e di tenuta delle scritture contabili. In caso di liquidazione giudiziale, può essere penalmente responsabile (bancarotta), ma solo l'imprenditore è sottoposto alla procedura concorsuale e alle relative conseguenze personali e patrimoniali.<br><br><strong>Atti pertinenti – spendita del nome:</strong> se l'institore omette di dichiarare di agire per l'imprenditore, è personalmente obbligato. Tuttavia, se l'atto è pertinente all'impresa, anche l'imprenditore è obbligato. Se le modalità rendono incerto se l'institore abbia operato per sé o per l'imprenditore, la responsabilità è solidale: il riparto è poi questione interna tra le parti.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Procuratore e commessi: differenze con l'institore",
+    a: `<strong>Procuratore (art. 2209):</strong> ausiliario subordinato non preposto all'intera impresa, ma con potere di compiere atti in un ambito specifico (es. direttore acquisti). Non ha rappresentanza processuale, né obblighi di iscrizione/scritture. Le limitazioni non richiedono pubblicità legale.<br><br><strong>Commessi (art. 2210):</strong> ausiliari con mansioni esecutive (es. commesso di negozio). Potere molto più limitato: solo atti ordinari della specie di operazioni loro affidate. Non possono esigere il prezzo fuori dai locali, né concedere sconti non d'uso.`,
+    deep: `<strong>Ausiliari interni vs ausiliari esterni:</strong> gli ausiliari interni (institori, procuratori, commessi) sono lavoratori subordinati il cui potere di rappresentanza deriva automaticamente dalla posizione nell'impresa, commisurato al tipo di mansioni. Gli <em>ausiliari esterni</em> (agenti, mediatori, commissionari, spedizionieri) operano su base contrattuale autonoma (mandato, agenzia, commissione) e i loro poteri rappresentativi sono disciplinati dal contratto, non direttamente dalla legge.<br><br><strong>Gerarchia Institore > Procuratore > Commesso:</strong> tutti e tre hanno potere di rappresentanza automatico. L'imprenditore può modificarne il contenuto, ma la limitazione è opponibile ai terzi con modalità diverse: per l'institore, solo se iscritta nel registro delle imprese; per il procuratore, senza pubblicità legale (quindi valida solo se il terzo ne era a conoscenza); per il commesso, solo se resa nota con mezzi idonei (es. avvisi affissi nei locali) o se provata l'effettiva conoscenza del terzo.<br><br><strong>Procuratore – "generale ma circoscritto":</strong> ha rappresentanza generale dell'imprenditore, ma limitata alle operazioni del proprio settore specifico. Il direttore del settore acquisti può compiere tutti gli atti che tipicamente rientrano in tale funzione (e per nient'altro). Non ha rappresentanza processuale (né attiva né passiva), non è tenuto a iscriversi nel registro né a tenere le scritture contabili. L'imprenditore <em>non risponde</em> per gli atti pertinenti all'impresa compiuti dal procuratore senza spendita del nome dell'imprenditore.<br><br><strong>Commessi – regole specifiche (art. 2210-2213):</strong> non possono esigere il pagamento di merci non ancora consegnate, né concedere dilazioni o sconti non consueti; se preposti alla vendita nei locali, non possono incassare fuori da tali locali; se è presente una cassa apposita, non possono incassare neppure all'interno. L'imprenditore può ampliare o limitare questi poteri, ma senza un sistema di pubblicità legale: le limitazioni sono opponibili ai terzi solo tramite mezzi idonei di comunicazione (es. cartelli affissi) o mediante prova dell'effettiva conoscenza da parte del terzo.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Mandato e principio della spendita del nome",
+    a: `Nel mandato con rappresentanza, il mandatario agisce in nome e per conto del mandante: gli effetti ricadono nella sfera del mandante (spendita del nome). Nel mandato senza rappresentanza, il mandatario agisce in nome proprio. L'impresa occulta si fonda sul mandato senza rappresentanza: il <em>dominus</em> dirige l'impresa ma non si palesa ai terzi.`,
+    deep: `<strong>Imprenditore occulto – teoria di Bigiavi:</strong> chi esercita il potere di direzione di un'impresa deve assumersene i rischi (principio di inscindibilità potere/responsabilità). Quindi il dominus occulto sarebbe imprenditore a tutti gli effetti, esposto alla liquidazione giudiziale. <em>Critica:</em> contrasta col principio della responsabilità limitata nelle società di capitali.<br><br><strong>Tesi dell'impresa fiancheggiatrice (giurisprudenza prevalente):</strong> se il socio che controlla la società la gestisce come "cosa propria" (finanziamento sistematico, ingerenza costante, direzione unitaria), questi comportamenti possono dar luogo a un'<em>autonoma attività d'impresa</em> di finanziamento/gestione. Se ricorrono i requisiti dell'art. 2082, il socio diventa titolare di un'impresa commerciale individuale e può essere sottoposto a liquidazione giudiziale.<br><br><strong>Tutela indiretta dei creditori:</strong> la liquidazione giudiziale della società può chiedere all'impresa fiancheggiatrice di versare le somme necessarie per soddisfare i debiti contratti nel suo interesse.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Azienda: definizione, caratteristiche e avviamento (art. 2555)",
+    a: `<strong>Art. 2555 c.c.:</strong> l'azienda è il complesso di beni organizzati dall'imprenditore per l'esercizio dell'impresa. Rileva la destinazione d'uso, non il titolo giuridico: anche beni di terzi (es. macchinario in leasing) sono beni aziendali se utilizzati nell'impresa. <strong>Avviamento:</strong> valore aggiunto del complesso aziendale rispetto alla somma dei singoli beni, derivante dall'organizzazione, dalla clientela, dalla reputazione.`,
+    deep: `<strong>Natura giuridica – dibattito dottrinale:</strong> la dottrina ha a lungo discusso la natura giuridica dell'azienda. La <em>teoria atomistica</em> vede l'azienda come la semplice somma dei beni che la compongono, senza un'unità giuridica autonoma. La <em>teoria unitaria</em> considera l'azienda un bene distinto, con proprio valore giuridico e oggetto di specifici diritti. Il legislatore non ha sciolto il dibattito: il Codice Civile disciplina l'azienda come una <em>fattispecie concreta</em> (un modello) che, quando si verifica nella pratica, comporta l'applicazione di specifiche norme, riconoscendone la rilevanza economica (artt. 2556-2562 c.c.).<br><br><strong>Beni aziendali – destinazione d'uso, non titolo giuridico:</strong> per qualificare un bene come aziendale rileva solo la sua <em>destinazione d'uso</em>, non il titolo giuridico. Non sono beni aziendali quelli non destinati all'impresa (es. abitazione dell'imprenditore). Possono esserlo anche beni di terzi se utilizzati nell'impresa (es. macchinario in leasing).<br><br><strong>Avviamento oggettivo vs soggettivo:</strong> l'avviamento rappresenta l'attitudine dell'azienda a generare profitto (ricavi eccedenti i costi). L'<em>avviamento oggettivo</em> deriva dall'organizzazione e dal coordinamento dei beni (es. impianto industriale efficiente) e resta anche col cambio del titolare. L'<em>avviamento soggettivo</em> dipende dalle capacità personali dell'imprenditore (es. abilità nel costruire e fidelizzare la clientela) e può venir meno con la sua uscita.<br><br><strong>Piano statico vs dinamico:</strong> il piano statico è la mera somma dei singoli beni aziendali; il piano dinamico (valore d'impresa in funzionamento) è ciò che genera utilità nuove e maggiori rispetto ai beni isolatamente considerati. Questa differenza è il cuore del concetto di avviamento.<br><br><strong>Trasferimento d'azienda vs singoli beni:</strong> non è necessario trasferire l'intero complesso: basta un ramo d'azienda dotato di autonomia operativa. Ciò che conta è trasferire un insieme potenzialmente idoneo all'esercizio di un'attività d'impresa. I beni esclusi dal trasferimento non devono però alterare l'unità economica e funzionale (es. escludere il brevetto industriale su cui si fonda l'attività distruggerebbe l'unità funzionale).`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Trasferimento d'azienda: concorrenza, contratti, crediti e debiti",
+    a: `<strong>Divieto di concorrenza (art. 2557):</strong> l'alienante deve astenersi per max 5 anni da attività idonea a sottrarre clientela. <strong>Contratti (art. 2558):</strong> l'acquirente subentra automaticamente nei contratti non personali; il terzo può recedere per giusta causa entro 3 mesi. <strong>Crediti (art. 2559):</strong> la cessione è opponibile con l'iscrizione nel registro. <strong>Debiti (art. 2560):</strong> l'alienante non è liberato; l'acquirente risponde se i debiti risultano dalle scritture contabili. Per i debiti di lavoro, l'acquirente risponde solidalmente sempre.`,
+    deep: `<strong>Forma – validità e opponibilità:</strong> per la validità del trasferimento si seguono le regole dei singoli beni (es. forma scritta a pena di nullità per immobili ex art. 1350 c.c.; atto pubblico per conferimento in società di capitali). Ai fini probatori e di opponibilità ai terzi, solo per le imprese soggette a pubblicità legale è richiesta la forma scritta. L'iscrizione nel registro delle imprese deve avvenire entro 30 giorni dalla stipulazione (atto pubblico o scrittura privata autenticata).<br><br><strong>Divieto di concorrenza – derogabilità e casi controversi:</strong> il divieto (max 5 anni, ambito limitato all'attività idonea a sottrarre clientela) si applica anche alle vendite coattive. Le parti possono estenderlo, purché non si arrivi a vietare ogni attività economica all'alienante e non si superi il termine massimo. Casi controversi ove il divieto è discusso: <em>(a)</em> divisione ereditaria con assegnazione dell'azienda a un erede (non è trasferimento diretto tra soggetti, ma si riconosce l'avviamento); <em>(b)</em> scioglimento di società con assegnazione al socio; <em>(c)</em> cessione dell'intera partecipazione di controllo (raggiunge lo stesso risultato economico della vendita d'azienda). In questi casi, parte della dottrina ritiene comunque applicabile il divieto.<br><br><strong>Successione nei contratti (art. 2558):</strong> l'acquirente subentra automaticamente nei contratti non personali in corso di esecuzione, senza necessità di consenso del terzo. Il terzo può recedere per giusta causa entro 3 mesi dalla conoscenza del trasferimento. Se recede, può chiedere i danni all'alienante, ma solo se dimostra l'assenza di una scelta oculata del cessionario (prova difficile).<br><br><strong>Crediti (art. 2559):</strong> la cessione è efficace verso i terzi con l'iscrizione nel registro delle imprese, senza necessità di notifica al debitore. Il debitore ceduto si libera se paga in buona fede all'alienante, ignorando il trasferimento. Disciplina semplificata solo per imprese soggette a pubblicità legale.<br><br><strong>Debiti di lavoro – tutela rafforzata:</strong> l'acquirente risponde solidalmente anche se i debiti non risultano dalle scritture contabili e anche se ne era ignaro al momento dell'acquisto. La tutela vale anche per aziende non commerciali o rami d'azienda.<br><br><strong>Rapporti interni e usufrutto/affitto:</strong> il Codice Civile non regola espressamente la sorte dei crediti/debiti nel rapporto tra alienante e acquirente: tesi prevalente è che non vi sia automatico trasferimento, occorre apposita pattuizione. Per usufrutto e affitto d'azienda: si applicano divieto di concorrenza e successione nei contratti; la disciplina sui debiti aziendali non si applica (manca richiamo); i debiti di lavoro si trasferiscono anche all'usufruttuario/affittuario.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Usufrutto e affitto d'azienda (artt. 2561-2562)",
+    a: `L'<strong>usufrutto d'azienda</strong> (art. 2561 c.c.) attribuisce all'usufruttuario il godimento dell'azienda, conservandone la destinazione economica. L'usufruttuario acquista la <strong>qualità di imprenditore</strong>; deve gestire senza modificare la destinazione, mantenere l'efficienza dell'organizzazione e aggiornare le scorte. Al termine restituisce l'azienda: se il valore è diminuito paga un'indennità; se è aumentato può chiedere rimborso. L'<strong>affitto d'azienda</strong> (art. 2562) segue la stessa disciplina per analogia. Si differenzia dalla locazione di singoli beni: l'affittuario subentra nei contratti d'impresa e diventa <em>imprenditore</em>. Si applicano il <strong>divieto di concorrenza</strong> (art. 2557) e la <strong>successione nei contratti</strong> (art. 2558); <strong>non si applica</strong> l'art. 2560 (debiti pregressi dell'alienante/concedente).`,
+    deep: `<strong>Usufrutto vs locazione di singoli beni:</strong> l'affitto di un'azienda non è assimilabile alla locazione di immobili o alla cessione di singoli beni. Nell'affitto d'azienda l'affittuario riceve un complesso organizzato e funzionante, assume la qualità d'imprenditore e subentra automaticamente (salvo diverso accordo) nei contratti d'impresa non personali. La locazione di un immobile industriale, invece, non trasferisce la qualità di imprenditore né le situazioni giuridiche dell'impresa.<br><br><strong>Mantenimento della destinazione economica:</strong> l'usufruttuario/affittuario non può modificare l'oggetto dell'impresa o destinare il complesso ad attività radicalmente diverse. Può apportare miglioramenti (es. acquistare nuovi macchinari) ma non può snaturare l'azienda. Il nudo proprietario/concedente ha diritto di vigilanza e, in caso di abuso, può chiedere la cessazione anticipata dell'usufrutto/affitto.<br><br><strong>Inventario e conguaglio:</strong> all'inizio e alla fine si redige un inventario. La differenza tra inventario finale e iniziale determina la somma a conguaglio: se l'usufruttuario ha consumato o deteriorato più di quanto abbia rinnovato, deve corrispondere la differenza; viceversa, ha diritto a indennizzo per i miglioramenti.<br><br><strong>Divieto di concorrenza (art. 2557):</strong> si applica sia al trasferimento sia all'usufrutto/affitto. Durante il periodo di godimento il concedente/nudo proprietario non può svolgere attività concorrenziale idonea a sottrarre clientela (tutela dell'avviamento a favore dell'usufruttuario/affittuario). Al termine dell'affitto il divieto può tornare a operare a favore del reintegrato concedente nei confronti dell'ex affittuario — questione dibattuta in dottrina.<br><br><strong>Successione nei contratti (art. 2558):</strong> i contratti d'impresa non personali in corso si trasferiscono automaticamente all'usufruttuario/affittuario. Il terzo può recedere per giusta causa entro 3 mesi. Compresi i contratti di lavoro: i lavoratori passano all'affittuario mantenendo tutti i diritti (art. 2112 c.c.).<br><br><strong>Mancato richiamo all'art. 2560 (debiti aziendali):</strong> l'art. 2562 richiama solo gli artt. 2557, 2558, 2560 non è richiamato: l'usufruttuario/affittuario non risponde dei debiti pregressi del concedente. I debiti contratti dall'affittuario durante l'affitto sono suoi; il concedente non ne risponde al termine del contratto.<br><br><strong>Affitto d'azienda nella liquidazione giudiziale (art. 212 CCI):</strong> il curatore può affittare l'azienda per preservarne il valore in attesa della vendita definitiva. Il contratto deve prevedere la facoltà del curatore di recedere con equo indennizzo (prededucibile). L'affittuario è imprenditore a tutti gli effetti; i debiti contratti durante l'affitto non gravano sulla procedura.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Marchio: definizione, requisiti di validità, marchio notorio",
+    a: `<strong>Marchio:</strong> segno distintivo dei prodotti/servizi. Può essere denominativo, figurativo, tridimensionale, sonoro, cromatico. <strong>Requisiti:</strong> <em>(1) liceità</em>; <em>(2) verità</em> (non ingannevole); <em>(3) originalità</em> (capacità distintiva: no denominazioni generiche); <em>(4) novità</em>. Il marchio registrato dura 10 anni, rinnovabile illimitatamente. <strong>Marchio celebre:</strong> tutela ultra-merceologica anche per prodotti non affini se l'uso trae indebito vantaggio dalla rinomanza.`,
+    deep: `<strong>Tipi di marchio:</strong> di fabbrica vs di commercio (possono coesistere sullo stesso prodotto, ma il rivenditore non può sopprimere quello del produttore); di servizio; generale vs speciale (es. Fiat-Panda); di certificazione (garantisce origine/qualità, es. Prosciutto di Parma); collettivo (registrato da associazioni).<br><br><strong>Trasferimento:</strong> dal 1992, il marchio può essere ceduto o dato in licenza anche senza l'azienda. La licenza non esclusiva è ammessa (stesso marchio usato da titolare e più concessionari) ma non deve ingannare il pubblico. Il licenziatario deve garantire caratteristiche qualitative uguali. Usata per franchising e merchandising (es. orologi Ferrari).<br><br><strong>Decadenza:</strong> mancato utilizzo per 5 anni; volgarizzazione (il marchio diventa nome comune: es. "Biro").<br><br><strong>Marchio non registrato (art. 2571):</strong> chi ha usato un marchio senza registrarlo può continuare nei limiti dell'uso precedente. La tutela dipende dalla notorietà: nazionale = forte; locale = debole (non impedisce ad altri di registrare lo stesso marchio altrove).`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Segni distintivi: ditta, insegna, marchio",
+    a: `<strong>Ditta:</strong> nome commerciale dell'imprenditore. Deve contenere almeno il cognome/sigla. Trasferibile solo con l'azienda. <strong>Insegna:</strong> identifica i locali. <strong>Marchio:</strong> identifica prodotti/servizi (tutela più elevata). Tutti i segni devono rispettare verità, novità e capacità distintiva. L'uso esclusivo è relativo: opera solo dove c'è rischio di confusione.`,
+    deep: `<strong>Ditta – principio di verità:</strong> la ditta originaria deve contenere almeno il cognome dell'imprenditore. La ditta derivata (trasferita da un altro) non richiede integrazione col cognome del nuovo titolare ("verità storica"). <strong>Principio di novità:</strong> chi adotta per primo la ditta ha diritto esclusivo. Per le imprese commerciali, conta la priorità di iscrizione nel registro. Il diritto all'uso esclusivo è relativo: vale solo in settori concorrenziali.<br><br><strong>Insegna:</strong> disciplina minima (un solo articolo: 2568). Non è tutelata se generica (es. "bar"), salvo che l'originalità derivi dalla composizione grafica. Trasferibile, anche con licenza non esclusiva (tipico nel franchising: es. Benetton, Cartier).<br><br><strong>Principi comuni:</strong> ampia libertà di formazione, uso esclusivo relativo, trasferibilità con limiti anti-inganno. Questi principi si applicano per analogia anche ai segni atipici (es. slogan pubblicitari, domain name).`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Titoli di credito: caratteristiche generali e principi",
+    a: `I titoli di credito sono documenti che incorporano un diritto di credito. <strong>Principi:</strong> <em>Incorporazione</em> (il diritto è nel documento); <em>Letteralità</em> (il contenuto è determinato dal testo del titolo); <em>Autonomia</em> (l'acquirente in buona fede acquista un diritto libero dalle eccezioni personali dei precedenti portatori); <em>Legittimazione</em> (chi possiede il titolo nelle forme prescritte può esercitare il diritto senza provare la titolarità).`,
+    deep: `<strong>Funzione economica:</strong> i titoli di credito semplificano e rendono sicura la circolazione dei diritti di credito. Il modello è quello dei beni mobili: il diritto immateriale viene "incorporato" in un documento che è cosa mobile. Trasferire il documento = trasferire il diritto.<br><br><strong>Autonomia in sede di circolazione (art. 1994):</strong> chi acquista un titolo in buona fede, anche da un non proprietario (es. ladro), acquista validamente. Ricalca il principio "possesso vale titolo" dei beni mobili (art. 1153). Serve: negozio astrattamente idoneo + possesso + buona fede.<br><br><strong>Autonomia in sede di esercizio:</strong> al portatore di buona fede sono opponibili solo le eccezioni reali (forma, falsità firma, difetto capacità, condizioni d'azione). Le eccezioni personali (rapporti precedenti, exceptio doli) sono opponibili solo al diretto interessato, non ai terzi in buona fede.<br><br><strong>Vincoli (art. 1997):</strong> pegno, sequestro e pignoramento sul diritto devono essere effettuati sul titolo stesso; non hanno effetto se non risultano dal titolo.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Titoli al portatore, all'ordine e nominativi: circolazione",
+    a: `<strong>Al portatore:</strong> circolano con la sola consegna. <strong>All'ordine:</strong> circolano con girata + consegna; la legittimazione deriva da una serie continua di girate. <strong>Nominativi:</strong> richiedono doppia intestazione (sul titolo e nel registro dell'emittente); circolano tramite transfert o girata autenticata. Per i titoli azionari, la girata basta per esercitare i diritti sociali.`,
+    deep: `<strong>Girata – in pieno vs in bianco:</strong> la girata in pieno indica il giratario; la girata in bianco no. Chi riceve un titolo girato in bianco può: completare col proprio nome, girare ulteriormente, o trasferire con semplice consegna.<br><br><strong>Girata con effetti limitati:</strong> <em>girata per l'incasso</em> (il giratario agisce come rappresentante: non acquista diritto autonomo, può girare solo per procura); <em>girata a titolo di pegno</em> (il giratario ha diritto di pegno: acquista diritto autonomo ma limitato, non può trasferire ulteriormente se non per procura).<br><br><strong>Transfert vs girata nei nominativi:</strong> il transfert è il cambio contestuale delle due intestazioni (titolo + registro) fatto dall'emittente. La girata è più semplice: l'alienante annota sul titolo, l'emittente aggiorna il registro solo quando l'acquirente vuole esercitare i diritti. La girata nei nominativi non può essere in bianco e deve essere autenticata.<br><br><strong>Titoli al portatore – ammortamento:</strong> di regola non ammesso (il diritto segue il possesso), salvo eccezioni tassative (es. assegni bancari al portatore).`
+  },
+  {
+    prof: ["Extra"],
+    q: "Gestione accentrata dei titoli di massa e dematerializzazione",
+    a: `Per i titoli di massa (azioni, obbligazioni, titoli di Stato) il legislatore ha introdotto sistemi per snellire la circolazione. Nel <strong>sistema non dematerializzato</strong>, i titoli fisici vengono accentrati presso un <strong>depositario centrale</strong> (in Italia: <em>Monte Titoli SpA</em>, ora parte di Euroclear Italy): il trasferimento avviene tramite <em>giroconto contabile</em> senza consegna fisica del documento. Nel <strong>sistema dematerializzato</strong> — obbligatorio per i titoli negoziati su mercati regolamentati (d.lgs. 213/1998 e artt. 83-<em>bis</em> ss. TUF) — il titolo <em>non viene mai emesso</em> materialmente: il diritto esiste come mera <strong>scrittura contabile</strong> sul conto dell'intermediario depositario. Il trasferimento avviene con scrittura sul conto dell'acquirente, senza consegna né girata.`,
+    deep: `<strong>Monte Titoli SpA / Euroclear Italy:</strong> depositario centrale italiano, parte del gruppo Euroclear. Opera come sistema di regolamento delle transazioni in titoli: ogni intermediario (banca, SIM) ha un conto presso Monte Titoli; le operazioni di compravendita si regolano con accredito/addebito tra i conti degli intermediari, senza movimentazione fisica dei titoli. Ciò elimina i rischi di smarrimento, furto e falsificazione del documento.<br><br><strong>Ammortamento nei sistemi accentrati:</strong> nei sistemi non dematerializzati il titolo fisico è detenuto dal depositario centrale. Se il documento viene distrutto o smarrito all'interno del sistema, la prova della titolarità emerge dalla scrittura contabile, rendendo le regole sull'ammortamento di scarsa rilevanza pratica. Nei sistemi pienamente dematerializzati l'ammortamento è concettualmente impossibile (non esiste documento da ammortizzare).<br><br><strong>Struttura del sistema dematerializzato:</strong> il diritto del titolare è attestato dall'iscrizione nel conto dell'intermediario presso il depositario centrale. L'acquirente acquista diritto reale sui titoli con la scrittura sul conto del suo intermediario, che avviene al <em>regolamento</em> (tipicamente T+2: due giorni di borsa dalla negoziazione). L'intermediario rilascia <em>certificazioni di legittimazione</em> per l'esercizio dei diritti.<br><br><strong>Norme applicabili:</strong> ai titoli dematerializzati si applicano le disposizioni del TUF (artt. 83-<em>bis</em> ss.) e del Regolamento UE 909/2014 (CSDR — Central Securities Depositories Regulation). I princìpi codicistici di incorporazione, letteralità e autonomia si applicano per analogia con adattamenti: la "spossessione" è impossibile; la "serie continua di girate" è sostituita dalla catena di scritture contabili.<br><br><strong>Record date e voto in assemblea:</strong> per l'esercizio dei diritti sociali (voto, dividendi), il sistema italiano adotta il meccanismo della <em>legittimazione al voto per comunicazione dell'intermediario</em>: ha diritto di voto chi risulta titolare dei titoli alla <em>record date</em>, tipicamente il settimo giorno di borsa aperta precedente l'assemblea. L'intermediario comunica alla società l'elenco dei titolari legittimati al voto.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Eccezioni cartolari: reali e personali",
+    a: `<strong>Reali (opponibili a tutti):</strong> difetto di forma, falsità firma, difetto capacità/rappresentanza, mancanza condizioni per l'azione. <strong>Personali (opponibili a uno specifico portatore):</strong> eccezioni ex causa (rapporto fondamentale), rapporti personali con precedenti possessori, difetto di titolarità. L'exceptio doli (frode dell'attuale portatore) è opponibile se c'è accordo fraudolento intenzionale.`,
+    deep: `<strong>Differenza tra mala fede e dolo:</strong> per le eccezioni personali "in senso stretto" (difetto di titolarità, es. titolo rubato), basta che il terzo agisca con <em>mala fede o colpa grave</em> perché l'eccezione sia opponibile. Per le eccezioni "fondate su rapporti personali" (es. rapporto causale), serve qualcosa di più grave: il <em>dolo</em>, ossia un accordo fraudolento intenzionalmente lesivo (collusione). Semplice conoscenza dell'eccezione non basta.<br><br><strong>Esempio pratico:</strong> Marco firma una cambiale a favore di Anna. Anna la gira a Luca. Se Marco e Anna avevano un accordo che Anna doveva consegnare qualcosa in cambio e non l'ha fatto, Marco non può opporre questa eccezione a Luca (eccezione personale). Ma se Luca ha comprato la cambiale proprio per aiutare Anna a frodare Marco, allora c'è exceptio doli e Marco può opporgliela.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Insolvenza vs sovraindebitamento",
+    a: `<strong>Insolvenza:</strong> incapacità strutturale di adempiere regolarmente le obbligazioni. Presupposto della liquidazione giudiziale. <strong>Crisi:</strong> squilibrio che rende probabile l'insolvenza entro 12 mesi. <strong>Sovraindebitamento:</strong> stato di crisi o insolvenza per debitori non soggetti alla liquidazione giudiziale (consumatori, piccoli imprenditori, professionisti, imprenditori agricoli). Le procedure da sovraindebitamento sono: liquidazione controllata, concordato minore, ristrutturazione dei debiti del consumatore.`,
+    deep: `<strong>Insolvenza ≠ inadempimento:</strong> un imprenditore può aver pagato tutti i debiti con mezzi anormali (es. prestiti usurai) ed essere comunque insolvente. Può essere inadempiente senza essere insolvente (es. negligenza, temporanea difficoltà). Solo l'insolvenza apre la liquidazione giudiziale; la temporanea difficoltà si affronta con altri strumenti (composizione negoziata, concordato preventivo).<br><br><strong>Soglie per la liquidazione giudiziale:</strong> l'impresa minore non vi è soggetta. Per aprirla servono: debiti non pagati > 30.000€ + superamento di almeno una soglia dimensionale.<br><br><strong>Sovraindebitamento – non dipende dal rapporto attivo/passivo:</strong> chi possiede molti beni ma non ha redditi sufficienti per i pagamenti è sovraindebitato. Chi ha molti debiti ma riesce a pagare regolarmente non lo è.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Assetti organizzativi adeguati e segnalazioni di allerta (art. 3 CCI)",
+    a: `Il CCI impone a ogni <strong>imprenditore commerciale</strong> l'adozione di <strong>assetti organizzativi, amministrativi e contabili adeguati</strong> alla natura e dimensione dell'impresa, idonei alla <em>rilevazione tempestiva della crisi</em> e della perdita di continuità aziendale (art. 3 CCI; art. 2086 c.c. modificato). La <strong>crisi</strong> è definita come <em>squilibrio economico-finanziario che rende probabile l'insolvenza entro i successivi 12 mesi</em>. Le <strong>segnalazioni di allerta interna</strong> obbligano gli organi di controllo societari (sindaci, revisore) a segnalare per iscritto all'organo amministrativo i fondati indizi di crisi; se non si interviene entro 30 giorni, possono informare il tribunale. L'<strong>allerta esterna</strong> (segnalazioni da INPS, Agenzia Entrate, agenti della riscossione al superamento di soglie di debito) è stata progressivamente sospesa e non è ancora entrata in vigore nella sua formulazione originaria.`,
+    deep: `<strong>Ratio del sistema — emersione anticipata:</strong> la disciplina del CCI è ispirata da una logica di emersione anticipata della crisi, in contrasto con l'approccio reattivo della legge fallimentare del 1942. L'obiettivo è che l'imprenditore rilevi la crisi nelle fasi iniziali, quando è ancora possibile il risanamento; il ritardo nell'intervento aggrava il dissesto e riduce le possibilità di soddisfazione dei creditori.<br><br><strong>Assetti adeguati — contenuto:</strong> l'art. 2086 c.c. (modificato dal CCI) impone a tutte le imprese organizzate in forma collettiva di dotarsi di assetti adeguati. Gli assetti devono consentire: monitoraggio continuo della situazione economico-finanziaria; rilevazione tempestiva di segnali di crisi tramite <em>indicatori</em> (tra cui il <strong>DSCR</strong> — Debt Service Coverage Ratio — a 6 mesi, elaborato dal CNDCEC); redazione di previsioni di cassa a breve termine. Per le imprese di piccole dimensioni, l'adeguatezza è valutata con maggiore flessibilità.<br><br><strong>Allerta interna — organi di controllo:</strong> sindaci e revisori delle società devono verificare che l'organo amministrativo si doti di assetti adeguati. Se rilevano fondati indizi di crisi devono: (a) segnalare per iscritto all'organo amministrativo; (b) se l'organo amministrativo non risponde adeguatamente entro 30 giorni, informare il tribunale. La segnalazione può provenire anche da revisori dei conti e società di revisione. Il rispetto di questa procedura limita la responsabilità degli organi di controllo in caso di successiva liquidazione giudiziale.<br><br><strong>Allerta esterna — sospensione:</strong> l'art. 25-<em>octies</em> CCI (originariamente artt. 14-15) prevedeva segnalazioni automatiche da: INPS (debiti contributivi superiori a soglie), Agenzia Entrate (debiti IVA superiori a soglie), agenti della riscossione (ruoli superiori a soglie). Questa disciplina è stata sospesa più volte per ragioni Covid-19 e difficoltà applicative; non è ancora entrata in vigore. De facto, le segnalazioni alla Centrale Rischi da parte degli intermediari finanziari fungono già da allerta informale.<br><br><strong>Responsabilità degli organi di controllo:</strong> il mancato rispetto degli obblighi di segnalazione può determinare responsabilità civile verso la società e i creditori. In sede di liquidazione giudiziale, i sindaci possono essere chiamati a rispondere dei danni causati dal ritardo nell'emersione della crisi, soprattutto se l'aggravamento del passivo è riconducibile alla tardività dell'intervento.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Piattaforma telematica nazionale e piani di rateizzazione automatici (CCI)",
+    a: `Il CCI istituisce una <strong>piattaforma telematica nazionale</strong> (art. 13 CCI, gestita da Unioncamere) a supporto della composizione negoziata della crisi. Funzionalità: <em>test di autovalutazione</em> della situazione aziendale; lista aggiornata degli esperti indipendenti abilitati; modelli per l'istanza e per il contratto con l'esperto. Per i debiti tributari e previdenziali non superiori a <strong>€ 30.000</strong>, il CCI prevede <strong>piani di rateizzazione automatici</strong>: il debitore presenta domanda telematica (senza aprire procedure concorsuali), ottiene rateizzazione fino a <strong>72 rate mensili</strong> e beneficia della sospensione automatica delle azioni esecutive durante il pagamento. Accessibili anche al di fuori della composizione negoziata come strumento ordinario di gestione del debito fiscale/previdenziale.`,
+    deep: `<strong>Piattaforma telematica — funzionamento pratico:</strong> accessibile tramite il portale gestito da Unioncamere su delega del Ministero. Il test di autovalutazione elabora i dati finanziari dell'impresa (bilanci, flussi di cassa previsionali) e fornisce un'indicazione sulla probabilità di crisi secondo gli indici CNDCEC. Non è vincolante per il tribunale né per i creditori, ma serve come primo strumento di consapevolezza per l'imprenditore.<br><br><strong>Lista esperti:</strong> la piattaforma mantiene l'albo degli esperti indipendenti iscritti dalle Camere di commercio. Requisiti: esperienza professionale di almeno 5 anni nel settore della crisi d'impresa; assenza di condanne penali rilevanti; iscrizione a un albo professionale (avvocato, commercialista, ecc.). La nomina è effettuata dalla Camera di commercio nel rispetto dei criteri di rotazione e indipendenza.<br><br><strong>Rateizzazione automatica — accesso e condizioni:</strong> <em>(a)</em> debiti tributari e/o previdenziali ≤ €30.000; <em>(b)</em> assenza di precedenti domande di rateizzazione non rispettate negli ultimi 5 anni; <em>(c)</em> presentazione della domanda telematica con indicazione del piano di rientro. Non è necessaria l'assistenza di professionisti né l'apertura di procedure concorsuali. La rateizzazione non preclude l'accesso alla composizione negoziata o ad altri strumenti.<br><br><strong>Effetti della rateizzazione automatica:</strong> sospensione automatica delle azioni esecutive individuali per i debiti rateizzati, per tutta la durata del piano. Se il debitore è inadempiente per <em>due rate consecutive</em>, la rateizzazione decade e i crediti tornano immediatamente esigibili con ripresa delle azioni esecutive. Il debitore può richiedere una sola rateizzazione automatica per gli stessi debiti.<br><br><strong>Differenza dalla composizione negoziata:</strong> la composizione negoziata è uno strumento per crisi più complesse (più creditori, situazione patrimoniale deteriorata, necessità di ristrutturazione strutturale); la rateizzazione automatica è uno strumento semplice per debiti fiscali/previdenziali modesti. I due strumenti sono cumulabili: l'imprenditore in composizione negoziata può contemporaneamente beneficiare della rateizzazione automatica per i debiti minori.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Liquidazione giudiziale: presupposti, organi, effetti",
+    a: `<strong>Presupposti:</strong> imprenditore commerciale non piccolo + stato di insolvenza + superamento soglie dimensionali. <strong>Organi:</strong> tribunale, giudice delegato, curatore (gestisce l'attivo), comitato dei creditori. <strong>Effetti per il debitore:</strong> spossessamento (perde disponibilità dei beni), limitazioni personali, atti successivi inefficaci verso la massa. <strong>Effetti per i creditori:</strong> cristallizzazione, sospensione interessi chirografari, divieto azioni esecutive individuali, concorso obbligatorio.`,
+    deep: `<strong>Spossessamento:</strong> riguarda l'intero patrimonio, compresi beni sopravvenuti. Eccezioni: beni personali, assegni alimentari/stipendi/pensioni nei limiti del mantenimento, beni impignorabili. Il debitore conserva proprietà e capacità di agire, ma gli atti su beni compresi nella liquidazione sono inefficaci verso i creditori.<br><br><strong>Derelizione:</strong> se il valore dei beni sopravvenuti è inferiore ai costi di gestione, il curatore può rinunciare a includerli nell'attivo (previa autorizzazione del comitato creditori). I beni tornano al debitore.<br><br><strong>Curatore:</strong> è il vero gestore del patrimonio. Deve essere iscritto all'albo dei gestori della crisi. Compiti: verifica cause dell'insolvenza, relazione al giudice delegato (entro 60 gg), conserva/gestisce/realizza il patrimonio. Per atti straordinari serve autorizzazione del comitato; per stare in giudizio serve autorizzazione del giudice delegato.<br><br><strong>Comitato dei creditori:</strong> 3-5 membri, ruolo rafforzato dal CCI. Esprime pareri, autorizza atti straordinari, può ispezionare documenti, chiedere chiarimenti, proporre revoca del curatore.<br><br><strong>Esdebitazione:</strong> alla chiusura, il debitore resta obbligato per i debiti residui, salvo che ottenga l'esdebitazione (liberazione). Requisiti di meritevolezza: no condanne per bancarotta, collaborazione con la procedura, no esdebitazioni nei 5 anni precedenti.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Esercizio provvisorio e affitto d'azienda nella liquidazione giudiziale (artt. 211-212 CCI)",
+    a: `Il tribunale, alla sentenza di apertura o successivamente, può autorizzare la <strong>prosecuzione temporanea dell'attività</strong> d'impresa se l'interruzione immediata causerebbe un <strong>danno grave e irreparabile</strong> all'attivo (art. 211 CCI). L'esercizio provvisorio è gestito dal <strong>curatore</strong> (o da un gestore delegato), con autorizzazione del comitato dei creditori per gli atti straordinari. I debiti contratti durante l'esercizio provvisorio sono <strong>prededucibili</strong>. In alternativa, il curatore può stipulare un contratto di <strong>affitto d'azienda</strong> (art. 212 CCI) con un terzo: l'affittuario gestisce autonomamente, assicurando la continuità operativa fino alla vendita definitiva. I debiti dell'affittuario non gravano sulla procedura. L'affitto è preferibile quando la gestione diretta è troppo rischiosa o costosa.`,
+    deep: `<strong>Autorizzazione all'esercizio provvisorio:</strong> può essere concessa direttamente nella sentenza di apertura o successivamente su richiesta del curatore. Il comitato dei creditori può revocarla se le condizioni cambiano. Deve essere limitata nel tempo e nello scopo: serve a conservare il valore dell'azienda in attesa della vendita, non a trasformare la liquidazione in una ristrutturazione.<br><br><strong>Gestione durante l'esercizio provvisorio:</strong> il curatore compie tutti gli atti di gestione corrente (acquisto materie prime, pagamento fornitori e dipendenti). Per atti di straordinaria amministrazione (contratti pluriennali, cessioni di cespiti) serve autorizzazione del comitato dei creditori o del giudice delegato. I creditori per beni/servizi forniti durante l'esercizio provvisorio sono prededucibili: pagati prima dei creditori concorsuali.<br><br><strong>Rischi e responsabilità del curatore:</strong> il curatore può essere personalmente responsabile se gestisce l'impresa in modo negligente o temerario, aggravando il passivo. Per questo tende a essere conservativo e si avvale spesso di un <em>gestore delegato</em> (manager esperto del settore). La scelta del gestore delegato deve seguire criteri di trasparenza e competenza.<br><br><strong>Affitto d'azienda nella liquidazione (art. 212 CCI):</strong> il contratto deve prevedere: (a) il diritto del curatore di recedere in qualsiasi momento con equo indennizzo (prededucibile); (b) obblighi dell'affittuario di mantenere la destinazione aziendale; (c) possibile preferenza dell'affittuario nella successiva vendita (diritto di prelazione o opzione). I debiti dell'affittuario non sono debiti della procedura.<br><br><strong>Selezione dell'affittuario:</strong> avviene tramite procedura competitiva (confronto di offerte), privilegiando il canone più elevato e le maggiori garanzie occupazionali. La preferenza per chi assicura continuità occupazionale è un obiettivo indicato dal CCI ma non cogente se economicamente svantaggioso per i creditori.<br><br><strong>Affitto e successiva vendita:</strong> il contratto può includere un'opzione d'acquisto a favore dell'affittuario al prezzo di mercato determinato da perizia, consentendo all'affittuario di "testare" l'azienda prima dell'acquisto. L'affitto è così un ponte verso la vendita definitiva, con un duplice vantaggio: conservazione del valore e possibile futuro incasso per la massa.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Esdebitazione nella liquidazione giudiziale (artt. 278-282 CCI)",
+    a: `L'<strong>esdebitazione</strong> è la liberazione del debitore <em>persona fisica</em> dai debiti residui non soddisfatti dopo la chiusura della liquidazione giudiziale. È concessa dal tribunale su istanza, verificando condizioni di <strong>meritevolezza</strong>: <em>(a)</em> cooperazione leale con gli organi della procedura; <em>(b)</em> nessuna distrazione o occultamento di beni; <em>(c)</em> nessun aggravamento doloso del dissesto; <em>(d)</em> assenza di condanne per bancarotta fraudolenta o reati economici gravi; <em>(e)</em> nessuna esdebitazione ottenuta nei 5 anni precedenti. <strong>Crediti esclusi:</strong> obblighi alimentari, risarcimento da illecito extracontrattuale doloso, sanzioni penali e amministrative aventi carattere punitivo. <strong>Esdebitazione dell'incapiente</strong> (art. 283 CCI): concessa senza aprire la liquidazione; risolutivamente condizionata — se entro 4 anni il debitore riceve utilità ≥ 10% dei debiti, il beneficio decade.`,
+    deep: `<strong>Ratio — fresh start:</strong> ispirata al modello anglosassone: il debitore onesto ma sfortunato ha diritto a una "seconda chance" economica, liberandosi dai debiti residui dopo aver liquidato tutto il liquidabile. Senza esdebitazione il debitore sarebbe perseguitato dai creditori per tutta la vita, il che disincentiva la sana assunzione di rischi imprenditoriali e contraddice la logica del mercato.<br><br><strong>Procedura:</strong> il debitore presenta istanza dopo la chiusura della liquidazione. Il tribunale notifica ai creditori ammessi al passivo, che possono opporsi entro 30 giorni adducendo il difetto delle condizioni di meritevolezza. Se nessuno si oppone e le condizioni sono soddisfatte, il decreto è emesso senza udienza. In caso di opposizione si svolge un'udienza con contraddittorio. Il decreto è pubblicato nel registro delle imprese.<br><br><strong>Effetti:</strong> i creditori esdebitati non possono più agire esecutivamente contro il debitore liberato. L'esdebitazione non pregiudica i diritti dei creditori verso coobbligati, fideiussori o obbligati in via di regresso: questi rimangono vincolati per l'intero importo.<br><br><strong>Crediti esclusi — perché:</strong> gli obblighi alimentari derivano da relazioni familiari, non dall'attività d'impresa; il risarcimento da illecito doloso ha carattere sanzionatorio; le sanzioni penali e amministrative hanno funzione punitiva/deterrente che verrebbe neutralizzata dall'esdebitazione. Tutti questi crediti sopravvivono all'esdebitazione e restano esigibili.<br><br><strong>Esdebitazione dell'incapiente (art. 283 CCI):</strong> per le persone fisiche prive di qualsiasi attivo liquidabile, il tribunale può concedere l'esdebitazione senza nemmeno aprire la liquidazione. Il decreto è "risolutivamente condizionato": se nei 4 anni successivi il debitore riceve utilità (es. eredità, vincita) tali che, sommate all'attivo originario, superano il 10% dei debiti, il beneficio decade e i creditori possono tornare ad agire. Concedibile una sola volta nella vita.<br><br><strong>Confronto con il concordato preventivo:</strong> nel concordato l'effetto esdebitatorio è automatico con l'omologazione: i creditori falcidiati si estinguono per la parte non soddisfatta senza bisogno di una successiva domanda. Nel concordato l'effetto è consensuale (i creditori hanno votato); nell'esdebitazione post-liquidazione è giudiziale (il tribunale decide valutando la meritevolezza).`
+  },
+  {
+    prof: ["Extra"],
+    q: "Patrimoni destinati a uno specifico affare e liquidazione giudiziale (art. 2447-bis c.c.)",
+    a: `L'art. 2447-<em>bis</em> c.c. consente alle SpA di costituire <strong>patrimoni destinati a uno specifico affare</strong>: una quota del patrimonio (max <strong>10% del patrimonio netto</strong>) viene segregata e dedicata esclusivamente a un progetto. I creditori dell'affare si soddisfano solo su quel patrimonio; i creditori generali non vi accedono. In caso di <strong>liquidazione giudiziale della SpA</strong>: le masse sono separate; i creditori dell'affare partecipano solo al patrimonio destinato. Se il patrimonio destinato è <strong>incapiente</strong>, il residuo debito entra nella massa generale della società solo se così previsto nell'atto costitutivo. Il <strong>finanziamento destinato</strong> (art. 2447-<em>bis</em>, lett. <em>b</em>) è strutturato diversamente: i finanziatori ricevono quota degli utili dell'affare come corrispettivo, assumendo un rischio imprenditoriale.`,
+    deep: `<strong>Due figure distinte:</strong> <em>(a)</em> <strong>patrimonio destinato in senso stretto</strong> (lett. a): la SpA delibera di destinare beni propri a uno specifico affare, creando una massa separata; i terzi contrattano direttamente con la SpA ma solo sul patrimonio destinato; <em>(b)</em> <strong>finanziamento destinato</strong> (lett. b): la SpA riceve un finanziamento da terzi per uno specifico affare, con rimborso condizionato ai proventi dell'affare. Nel primo caso la segregazione è più netta; nel secondo i finanziatori assumono anche un rischio imprenditoriale e sono trattati come investitori.<br><br><strong>Costituzione:</strong> delibera del consiglio di amministrazione (con statuto che lo preveda), depositata nel registro delle imprese. L'atto deve indicare: l'affare specifico; i beni e rapporti compresi nel patrimonio; i terzi coinvolti; il piano finanziario; le modalità di rendiconto separato. Il collegio sindacale deve redigere una relazione sulla ragionevolezza del piano. Limite: max 10% del patrimonio netto della SpA per ciascun patrimonio destinato.<br><br><strong>Separazione patrimoniale:</strong> i beni del patrimonio destinato non possono essere aggrediti dai creditori generali della SpA, salvo diversa previsione nell'atto costitutivo. I creditori dell'affare non hanno azioni contro il patrimonio generale, salvo l'ipotesi di incapienza (se l'atto costitutivo lo prevede). La SpA deve tenere una <em>contabilità separata</em> per ciascun patrimonio destinato.<br><br><strong>In liquidazione giudiziale:</strong> i creditori dell'affare si insinuano nel passivo della liquidazione come creditori del patrimonio destinato; la procedura gestisce separatamente la liquidazione di tale patrimonio. Se il patrimonio destinato è incapiente, i creditori dell'affare possono concorrere al patrimonio generale solo se l'atto costitutivo lo prevede espressamente; altrimenti subiscono integralmente la perdita.<br><br><strong>Confronto con il trust:</strong> i patrimoni destinati realizzano una segregazione patrimoniale simile al trust anglosassone. Differenza principale: nei patrimoni destinati la SpA resta titolare dei beni; nel trust la titolarità passa al trustee. Il trust è riconosciuto in Italia dalla Convenzione dell'Aia del 1985 (ratificata con l. 364/1989) ma non è ancora disciplinato organicamente dal diritto interno.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Atti pregiudizievoli: revocatoria ordinaria e concorsuale",
+    a: `<strong>Revocatoria ordinaria (art. 2901):</strong> il creditore può far dichiarare inefficaci gli atti dispositivi del debitore che riducono la garanzia. <strong>Revocatoria concorsuale:</strong> il curatore può revocare atti nel "periodo sospetto" (6 mesi/1 anno/2 anni prima della domanda). Per gli atti anormali, la conoscenza dell'insolvenza è presunta (onere della prova sul terzo). Termine: 3 anni dall'apertura, prescrizione 5 anni.`,
+    deep: `<strong>Inefficacia di diritto (senza azione):</strong> atti a titolo gratuito (2 anni), pagamenti di debiti non scaduti (2 anni), rimborsi di finanziamenti soci postergati (1 anno).<br><br><strong>Atti anormali (presunzione di conoscenza):</strong> atti a titolo oneroso con notevole sproporzione (1 anno); pagamenti con mezzi anormali (1 anno); pegni/ipoteche per debiti preesistenti non scaduti (1 anno / 6 mesi). Il terzo deve provare di aver ignorato l'insolvenza.<br><br><strong>Atti normali (prova a carico del curatore):</strong> pagamenti ordinari, garanzie contestuali al debito, ogni altro atto oneroso (6 mesi). Il curatore deve provare che il terzo conosceva l'insolvenza.<br><br><strong>Atti non revocabili:</strong> pagamenti per beni/servizi nel normale esercizio dell'impresa, corrispettivi per lavoro, vendite immobiliari a giusto prezzo per abitazione, esecuzione di piani di risanamento attestati, atti in concordato preventivo/accordi di ristrutturazione omologati. Operazioni bancarie specifiche (credito fondiario, agrario, pegni su attività finanziarie).<br><br><strong>Rapporti tra coniugi:</strong> disciplina severissima. Tutti gli atti di disposizione revocabili dall'inizio dell'attività imprenditoriale. Conoscenza dell'insolvenza presunta sempre.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Contratti in corso di esecuzione nella liquidazione giudiziale",
+    a: `I contratti pendenti non si risolvono automaticamente. Il curatore sceglie, con autorizzazione del comitato creditori: <strong>(a)</strong> subingresso (il credito del terzo è prededucibile); <strong>(b)</strong> scioglimento (il terzo ha solo credito concorsuale). Eccezioni: alcuni contratti si sciolgono di diritto (es. mandato, conto corrente, borsa a termine), altri proseguono automaticamente (es. locazione di immobili, affitto d'azienda).`,
+    deep: `<strong>Contratti che si sciolgono di diritto:</strong> contratti di borsa a termine, associazione in partecipazione (se l'associante è in liquidazione), conto corrente, commissione, mandato (in caso di liquidazione del mandatario). Per l'appalto: il curatore può subentrare entro 60 giorni offrendo garanzie, ma il committente può opporsi se la persona dell'appaltatore era determinante.<br><br><strong>Contratti che proseguono:</strong> locazione immobiliare (il curatore può recedere in qualsiasi momento se è il conduttore, o entro 1 anno se è il locatore); affitto d'azienda; contratto di edizione; cessione crediti (factoring); leasing finanziario (se in liquidazione il concedente).<br><br><strong>Rapporto di lavoro:</strong> il curatore può subentrare comunicandolo al lavoratore, oppure recede con effetto retroattivo. Senza decisione, il rapporto si risolve di diritto dopo 4 mesi (prorogabile fino a 12). Al lavoratore spettano TFR e indennità di mancato preavviso, soggetti alla falcidia concorsuale.<br><br><strong>Preliminare di vendita immobiliare:</strong> se trascritto, è opponibile. Se il curatore subentra, trasferisce l'immobile libero da vincoli. Ma solo metà dell'acconto è opponibile: l'acquirente deve versare il saldo + metà dell'acconto.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Concordato preventivo",
+    a: `Procedura alternativa alla liquidazione giudiziale per imprenditori in crisi o insolvenza. <strong>Tipi:</strong> liquidatorio (cessazione dell'attività) o con continuità aziendale (prosecuzione, diretta o indiretta). <strong>Procedura:</strong> domanda (anche "in bianco") → ammissione → voto creditori → omologazione dal tribunale. Nel concordato liquidatorio serve soddisfare almeno il 20% dei chirografari + apporto esterno ≥10%.`,
+    deep: `<strong>Concordato con continuità:</strong> i creditori devono ricevere almeno quanto otterrebbero nella liquidazione. Moratoria fino a 2 anni per privilegiati. Il plusvalore da continuità va distribuito secondo priorità relativa (relative priority rule), non assoluta.<br><br><strong>Domanda "in bianco":</strong> dal 2012, si può presentare una domanda incompleta con riserva di depositare il piano in 30-60 giorni (prorogabili). Intanto si può chiedere il blocco delle azioni esecutive. Il tribunale nomina un commissario giudiziale per vigilare.<br><br><strong>Proposte concorrenti:</strong> se la proposta del debitore offre < 30% ai chirografari, creditori (≥10% dei crediti) e soci (≥10% del capitale) possono presentare proposte alternative.<br><br><strong>Ristrutturazione trasversale (cross-class cram-down):</strong> nel concordato con continuità, se non tutte le classi approvano, il tribunale può comunque omologare se: la proposta rispetta equità e proporzionalità, nessun creditore riceve più del dovuto, e almeno una classe di privilegiati ha votato a favore.<br><br><strong>Nuova finanza concordataria:</strong> i finanziamenti per il concordato possono essere prededucibili con autorizzazione del tribunale. Vale anche per finanziamenti dei soci (fino all'80%).`
+  },
+  {
+    prof: ["Extra"],
+    q: "Concordato preventivo di gruppo (artt. 284-292 CCI)",
+    a: `Il CCI disciplina la crisi di imprese appartenenti allo stesso <strong>gruppo</strong> con regole speciali (artt. 284-292). Imprese in crisi o insolvenza del medesimo gruppo possono presentare domanda di concordato preventivo con <strong>procedura unitaria</strong>: un solo tribunale competente, un solo commissario giudiziale, un <em>piano unitario</em> o piani collegati. Le <strong>masse attive e passive restano separate</strong>: ciascuna società ha i propri creditori e il proprio attivo. I <strong>trasferimenti infragruppo</strong> di risorse o beni sono ammessi se funzionali al risanamento e se il <em>vantaggio compensativo</em> per il gruppo compensa il pregiudizio della società cedente. Il <strong>voto è separato per ogni entità giuridica</strong>: la maggioranza si calcola società per società.`,
+    deep: `<strong>Definizione di gruppo ai fini del CCI:</strong> insieme di società legate da rapporti di controllo ai sensi dell'art. 2359 c.c. (controllo di diritto o di fatto) e di direzione e coordinamento ai sensi degli artt. 2497 ss. c.c. Non occorre che tutte le società del gruppo siano in crisi: basta che due o più lo siano per attivare le disposizioni speciali del CCI sul gruppo.<br><br><strong>Vantaggi della procedura unitaria:</strong> (a) un solo tribunale evita conflitti di competenza e decisioni contraddittorie; (b) un solo commissario garantisce visione complessiva del gruppo; (c) piani coordinati permettono sinergie (es. trasferimento di rami aziendali, utilizzo di eccedenze di cassa di una società per finanziare un'altra). La procedura unitaria non significa però confusione patrimoniale.<br><br><strong>Trasferimenti infragruppo e vantaggi compensativi:</strong> il CCI consente trasferimenti di beni, crediti e risorse tra le società del gruppo, purché previsti nel piano e purché il piano dimostri che il "vantaggio compensativo" (beneficio netto per il gruppo) compensa il pregiudizio per la società cedente. Questo è un'applicazione del principio elaborato dalla giurisprudenza sulla direzione e coordinamento.<br><br><strong>Separazione delle masse:</strong> nonostante la procedura unitaria, ciascuna società mantiene la propria autonomia patrimoniale. I creditori di una società non possono soddisfarsi sull'attivo di un'altra (nessuna confusione patrimoniale). La concentrazione della procedura serve a coordinare la gestione, non a creare un unico patrimonio di gruppo.<br><br><strong>Votazione separata e cram-down di gruppo:</strong> ogni società vota separatamente per classi; il calcolo delle maggioranze avviene per ogni singola entità. Un concordato di gruppo può essere omologato anche se non tutte le società raggiungono le maggioranze, se il piano dimostra che la soluzione unitaria è comunque superiore a soluzioni disgiunte per tutte le società interessate.<br><br><strong>Responsabilità della capogruppo e liquidazione di gruppo:</strong> se la crisi delle controllate è stata causata da abuso della direzione e coordinamento, i creditori possono agire verso la capogruppo (art. 2497 c.c.). Le stesse regole (tribunale unico, masse separate, revocatoria aggravata per atti infragruppo con termini raddoppiati) si applicano alla liquidazione giudiziale di gruppo (artt. 293-295 CCI).`
+  },
+  {
+    prof: ["Extra"],
+    q: "Piano di ristrutturazione soggetto ad omologazione — PRO (art. 64-bis CCI)",
+    a: `Il PRO (art. 64-<em>bis</em> CCI) è uno strumento per ristrutturazioni che richiedono l'approvazione dei creditori ma non seguono le regole del concordato preventivo. Caratteristiche principali: <strong>(1) approvazione per unanimità</strong> delle classi, o per <strong>approvazione qualificata</strong> (≥75% dei crediti <em>e</em> ≥75% in numero di creditori per le classi non unanimi); <strong>(2) nessun cross-class cram-down</strong>: il tribunale non può omologare contro una classe che non ha approvato con la maggioranza qualificata; <strong>(3) nessuna regola di priorità</strong> assoluta o relativa: il plusvalore da risanamento si distribuisce liberamente tra le classi; <strong>(4) accessibile anche in assenza di crisi o insolvenza</strong> (impresa in <em>bonis</em>).`,
+    deep: `<strong>Differenza dal concordato con continuità aziendale:</strong> nel concordato con continuità (art. 84 CCI) il tribunale può omologare con <em>cross-class cram-down</em> anche contro classi dissenzienti, purché almeno una classe privilegiata voti a favore. Nel PRO questa possibilità non esiste: se una classe non approva (neppure con la maggioranza qualificata), il piano non può essere omologato contro di essa. Ciò rende il PRO più rigido sull'approvazione ma più flessibile sulla distribuzione del valore.<br><br><strong>Assenza di regole di priorità:</strong> nel concordato con continuità si applica la <em>relative priority rule</em>: i creditori di rango inferiore non possono ricevere più dei superiori se questi non hanno votato a favore. Nel PRO nessuna regola analoga: il piano può prevedere che i soci ricevano una quota, o che certe classi di creditori ricevano più dei privilegiati, purché tutte le classi coinvolte approvino con le maggioranze richieste. Massima autonomia contrattuale.<br><br><strong>Soglia di approvazione qualificata:</strong> nelle classi che non raggiungono l'unanimità, il piano è approvato se i creditori favorevoli rappresentano almeno il 75% dei crediti della classe <em>e</em> almeno il 75% in numero di creditori presenti al voto (doppia maggioranza). Questa soglia più elevata rispetto al concordato ordinario (50%) riflette il peso maggiore dato all'autonomia contrattuale delle parti.<br><br><strong>Accessibilità in bonis:</strong> il PRO può essere adottato anche da imprese non in crisi né insolventi, come strumento di riorganizzazione preventiva. È l'unico strumento concorsuale italiano che consente ristrutturazioni in assenza di difficoltà finanziarie. Questo lo avvicina al <em>creditor scheme of arrangement</em> inglese o al piano di ristrutturazione preventiva previsto dalla Direttiva UE 2019/1023 (Direttiva Insolvency).<br><br><strong>Ruolo del tribunale nell'omologazione:</strong> verifica: (a) corretta formazione delle classi; (b) raggiungimento delle maggioranze qualificate; (c) assenza di atti in frode ai creditori; (d) che nessun creditore sia trattato peggio di quanto otterrebbe nella liquidazione giudiziale (<em>best interest test</em>). Non valuta la convenienza del piano per i creditori (riservata ai creditori stessi). Il decreto di omologazione rende il piano vincolante per tutte le classi, compresi i dissenzienti all'interno delle classi che hanno approvato.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Procedure da sovraindebitamento",
+    a: `Riservate a soggetti non assoggettabili alla liquidazione giudiziale: consumatori, professionisti, imprenditori agricoli/minori, start-up innovative. Le tre procedure: <strong>(1) Liquidazione controllata:</strong> liquidazione del patrimonio + possibile esdebitazione. <strong>(2) Concordato minore:</strong> piano approvato dalla maggioranza dei creditori. <strong>(3) Ristrutturazione debiti del consumatore:</strong> piano omologato dal giudice senza voto dei creditori (consumatore non colpevole).`,
+    deep: `<strong>Liquidazione controllata – differenze dalla liquidazione giudiziale:</strong> effetti meno gravosi per il debitore, nessun effetto personale/penale, no revocatoria concorsuale (solo ordinaria), applicabile anche in caso di mera crisi. Domanda dal debitore o dai creditori (se insolvente). L'OCC (Organismo di Composizione delle Crisi) ha ruolo centrale: redige la relazione e spesso funge da liquidatore.<br><br><strong>Concordato minore familiare:</strong> più familiari conviventi possono presentare domanda congiunta se almeno uno non è consumatore e i debiti hanno origine comune. Masse attive/passive restano separate. Costi OCC ripartiti in proporzione ai debiti.<br><br><strong>Ristrutturazione del consumatore:</strong> la particolarità è che NON serve il voto dei creditori. Il giudice valuta ammissibilità e fattibilità, omologa direttamente. I creditori possono presentare osservazioni entro 20 giorni. Il consumatore deve essere "non colpevole" del sovraindebitamento.<br><br><strong>Esdebitazione del debitore incapiente:</strong> solo per persona fisica, una sola volta. Il decreto è "risolutivamente condizionato": se entro 4 anni il debitore riceve utilità ≥10% dei debiti, torna obbligato.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Accordi di ristrutturazione dei debiti",
+    a: `Strumento negoziale: l'imprenditore (commerciale o agricolo) raggiunge un accordo con creditori che rappresentano almeno il 60% dei crediti. L'accordo è omologato dal tribunale. I creditori non aderenti devono essere soddisfatti integralmente (entro 120 giorni). Protezione dalle azioni esecutive durante la negoziazione. Differenza dal concordato: è negoziale, non giudiziale.`,
+    deep: `<strong>Varianti speciali:</strong> <em>Accordi agevolati:</em> soglia ridotta al 30% dei crediti, ma il debitore rinuncia a moratoria e misure protettive. <em>Accordi con efficacia estesa:</em> se il 75% dei crediti di una categoria aderisce, l'accordo vincola anche il restante 25%. Per accordi liquidatori, l'estensione vale solo per banche/intermediari se i loro crediti superano metà dell'indebitamento totale. <em>Accordi di gruppo:</em> più imprese dello stesso gruppo con domanda unitaria e piano unitario o piani collegati.<br><br><strong>Crediti fiscali e previdenziali:</strong> il tribunale può omologare anche senza adesione di fisco/enti previdenziali, se la proposta è più vantaggiosa della liquidazione giudiziale.<br><br><strong>Prededucibilità della nuova finanza:</strong> come nel concordato, i finanziamenti per l'attuazione dell'accordo possono essere prededucibili. Per i crediti professionali: prededucibili al 75% solo se l'accordo è omologato.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Convenzione di moratoria (art. 62 CCI)",
+    a: `La <strong>convenzione di moratoria</strong> è un accordo tra il debitore e i creditori di una o più <strong>categorie omogenee</strong> (es. banche, fornitori, obbligazionisti) per dilazionare o sospendere temporaneamente i pagamenti. Può essere stipulata da qualsiasi debitore, inclusi <strong>imprenditori agricoli</strong> e <strong>debitori civili</strong>. Non richiede omologazione giudiziale. Produce effetti vincolanti anche per i creditori <em>dissenzienti</em> della categoria se: <em>(a)</em> i creditori aderenti rappresentano almeno il <strong>75% dei crediti</strong> della categoria; <em>(b)</em> i creditori dissenzienti sono stati <em>informati</em>; <em>(c)</em> non subiscono un trattamento peggiorativo rispetto all'alternativa liquidatoria. Non produce <em>automatic stay</em> (blocco automatico delle azioni esecutive individuali).`,
+    deep: `<strong>Ratio:</strong> la convenzione di moratoria è uno strumento negoziale snello, senza intervento del giudice, per gestire crisi di liquidità temporanee. Il meccanismo del 75% (estensione ai dissenzienti) è modellato sul principio della maggioranza: i creditori che hanno analizzato la situazione e accettato la dilazione impongono la loro valutazione al resto della categoria, evitando che un singolo creditore dissenziente vanifichi l'accordo avviando azioni esecutive.<br><br><strong>Categoria omogenea:</strong> la categoria deve essere formata da creditori con interessi omogenei (es. tutte le banche espositrici, tutti i fornitori con la stessa priorità). Creditori in posizioni diverse (garantiti vs chirografari, banche vs fornitori) devono essere in categorie separate. La correttezza della categorizzazione non è sindacata dal giudice (nessuna omologazione), ma può essere contestata dai dissenzienti in sede ordinaria.<br><br><strong>Estensione ai dissenzienti — condizioni:</strong> per essere vincolati dalla convenzione, i creditori dissenzienti devono: (a) avere un trattamento non peggiorativo rispetto all'alternativa liquidatoria (no haircut imposto); (b) essere stati informati dell'accordo e della sua natura prima della sottoscrizione. Se queste condizioni non sono soddisfatte, i dissenzienti non sono vincolati e possono agire individualmente.<br><br><strong>Nessun automatic stay — differenza fondamentale:</strong> a differenza del concordato preventivo e degli accordi di ristrutturazione, la convenzione di moratoria non sospende automaticamente le azioni esecutive dei creditori non aderenti né dei dissenzienti della categoria. Per ottenere la sospensione, il debitore deve ricorrere alla composizione negoziata (che consente di chiedere misure protettive al tribunale).<br><br><strong>Pubblicità e opponibilità:</strong> la convenzione non richiede iscrizione nel registro delle imprese né pubblicità particolari per produrre effetti tra le parti. Per l'estensione ai dissenzienti è sufficiente la comunicazione dell'accordo ai creditori della categoria. Non produce effetti verso i creditori di categorie diverse da quelle coinvolte.<br><br><strong>Interazione con la composizione negoziata (art. 23 CCI):</strong> nella composizione negoziata, la convenzione di moratoria è uno degli esiti positivi possibili: l'esperto attesta che la moratoria è funzionale al risanamento e soddisfa i requisiti di legge. L'attestazione conferisce maggiore solidità giuridica, riducendo il rischio di contestazioni da parte dei dissenzienti.<br><br><strong>Applicazione all'imprenditore agricolo:</strong> la convenzione di moratoria è l'unico strumento concorsuale "contrattuale" espressamente applicabile anche agli imprenditori agricoli, che non sono soggetti alla liquidazione giudiziale né agli accordi di ristrutturazione omologati. Consente all'agricoltore di gestire una crisi temporanea senza aprire procedure formali.`
+  },
+  {
+    prof: ["Masi","Morello","Martucci"],
+    q: "Composizione negoziata della crisi",
+    a: `Strumento stragiudiziale per l'emersione anticipata della crisi. L'imprenditore in squilibrio chiede alla Camera di commercio la nomina di un <em>esperto indipendente</em> che facilita le trattative con i creditori. Misure protettive possibili (max 240 giorni). L'imprenditore mantiene la gestione. Segnalazioni di allerta: interna (organo di controllo) ed esterna (INPS, Agenzia Entrate, banche).`,
+    deep: `<strong>Presupposti:</strong> squilibrio patrimoniale/economico-finanziario tale da far presumere crisi o insolvenza, possibilità concreta di risanamento, assenza di procedura concorsuale pendente. Possono presentare istanza anche più imprese dello stesso gruppo per un unico esperto.<br><br><strong>Durata:</strong> fino a 180 giorni dall'accettazione dell'incarico, prorogabili di altri 180. Se non si raggiunge un accordo, l'esperto redige relazione finale e l'istanza viene archiviata. Non si può ripresentare prima di 1 anno.<br><br><strong>Autorizzazioni del tribunale:</strong> di norma l'imprenditore gestisce senza autorizzazioni. Ma con autorizzazione può: contrarre finanziamenti prededucibili (anche da soci/gruppo) ed effettuare trasferimenti d'azienda esonerando il cessionario dai debiti (tranne lavoro).<br><br><strong>Esiti positivi possibili:</strong> contratto con creditori, convenzione di moratoria, accordo equivalente a piano attestato. Se negativa: l'imprenditore può predisporre piano unilaterale, chiedere accordo di ristrutturazione, o accedere a procedura concorsuale.<br><br><strong>Concordato semplificato:</strong> se la composizione negoziata fallisce, l'imprenditore può chiedere (entro 60 giorni) un concordato semplificato per la liquidazione, senza voto dei creditori, omologato direttamente dal tribunale.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Concordato semplificato per la liquidazione del patrimonio (art. 25-sexies CCI)",
+    a: `Strumento introdotto dal d.l. 118/2021, oggi art. 25-<em>sexies</em> CCI, come sbocco della <strong>composizione negoziata fallita</strong>. Il debitore può presentare domanda entro <strong>60 giorni</strong> dalla relazione finale negativa dell'esperto. Il piano è <strong>esclusivamente liquidatorio</strong>. Il tribunale omologa <strong>senza il voto dei creditori</strong>, limitandosi a verificare che la proposta non sia deteriore rispetto alla liquidazione giudiziale e che sia fattibile. La soddisfazione dei chirografari deve essere <strong>non inferiore al 20%</strong>. L'esperto della composizione negoziata può essere nominato <strong>commissario giudiziale</strong>. Produce <em>automatic stay</em> (blocco azioni esecutive) dalla domanda.`,
+    deep: `<strong>Origine e ratio — incentivo alla composizione negoziata:</strong> il concordato semplificato è stato introdotto come incentivo all'utilizzo della composizione negoziata: l'imprenditore che avvia la procedura e non riesce a raggiungere un accordo ha comunque accesso a uno strumento di uscita rapido. La semplicità sta nell'assenza del voto dei creditori, che nella prassi è spesso il principale ostacolo.<br><br><strong>Differenza dal concordato preventivo liquidatorio ordinario:</strong> nel concordato preventivo ordinario sono richiesti: (a) apporto esterno di risorse fresche ≥10%; (b) soddisfazione chirografari ≥20%; (c) voto dei creditori a maggioranza; (d) possibilità di proposte concorrenti. Nel concordato semplificato: nessun apporto esterno obbligatorio, 20% ai chirografari ma <em>senza voto</em>, nessuna proposta concorrente, omologazione diretta del tribunale.<br><br><strong>Ruolo del tribunale nell'omologazione:</strong> il tribunale verifica: (a) veridicità dei dati e fattibilità del piano (già parzialmente attestata dall'esperto nella relazione finale della composizione negoziata); (b) assenza di atti in frode ai creditori; (c) proposta non deteriore rispetto alla liquidazione giudiziale; (d) soddisfazione ≥20% per i chirografari. Non valuta la convenienza del piano per i creditori (riservata alla loro autonomia nel concordato ordinario). I creditori possono presentare osservazioni scritte.<br><br><strong>Commissario giudiziale:</strong> l'esperto della composizione negoziata che ha redatto la relazione finale negativa può essere nominato commissario giudiziale nel concordato semplificato. Ciò valorizza il lavoro già svolto nella fase negoziata e riduce i costi. Il commissario vigila sull'esecuzione del piano fino al soddisfacimento dei creditori.<br><br><strong>Automatic stay:</strong> dalla domanda di concordato semplificato, le azioni esecutive individuali sono sospese e non possono essere iniziate né proseguite. Il blocco dura fino all'omologazione o al rigetto. Se rigettata, il debitore può chiedere la liquidazione giudiziale o accedere ad altro strumento.<br><br><strong>Limitazioni strutturali:</strong> il concordato semplificato è esclusivamente liquidatorio: non consente la continuità aziendale (non vi si applica la relative priority rule né il cram-down trasversale). Non modifica rapporti obbligatori con creditori estranei. Non preclude la responsabilità personale dell'imprenditore per debiti contratti in malafede.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Impresa familiare (art. 230-bis)",
+    a: `Istituto residuale: si applica quando un familiare (coniuge, parente entro 3° grado, affine entro 2°) presta lavoro continuativo nell'impresa senza diversa qualificazione giuridica. L'impresa resta individuale (beni di proprietà del titolare). Diritti dei partecipanti: partecipazione agli utili, diritto di prelazione, decisioni straordinarie a maggioranza. Non è un soggetto giuridico distinto.`,
+    deep: `<strong>Funzione storica:</strong> prima del 1975, il lavoro familiare si presumeva gratuito e nessun diritto era riconosciuto. L'art. 230-bis ha introdotto una tutela minima inderogabile.<br><br><strong>Diritti patrimoniali:</strong> mantenimento; partecipazione agli utili proporzionale al lavoro; diritti sui beni acquistati con gli utili e sugli incrementi aziendali (anche avviamento); prelazione sull'azienda in caso di divisione ereditaria o cessione.<br><br><strong>Diritti amministrativi:</strong> le decisioni su gestione straordinaria, impiego utili e cessazione dell'impresa sono adottate a maggioranza dei familiari partecipanti. Il diritto di partecipazione è trasferibile solo ad altri familiari nucleari con consenso unanime; è liquidabile in denaro se cessa la prestazione lavorativa.<br><br><strong>Impresa familiare ≠ piccola impresa:</strong> una piccola impresa può non essere familiare (se l'imprenditore non usa familiari). Un'impresa grande può essere familiare se vi collaborano i familiari.<br><br><strong>Convivente (art. 230-ter):</strong> dal 2016, al convivente di fatto che lavora nell'impresa dell'altro spettano solo partecipazione agli utili e diritti sui beni acquistati con essi, proporzionali al lavoro. Meno diritti rispetto ai familiari ex 230-bis.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Professioni intellettuali (art. 2238)",
+    a: `I liberi professionisti (avvocati, medici, notai) non sono imprenditori. L'art. 2238 stabilisce che la disciplina dell'impresa si applica solo se l'esercizio professionale è elemento di un'impresa più ampia (es. medico che gestisce una clinica). Anche con molti collaboratori e mezzi, il professionista che esercita personalmente resta tale. La ragione è nel prestigio sociale delle professioni.`,
+    deep: `<strong>Due attività distinte:</strong> quando un professionista gestisce un'impresa nella quale esercita anche la propria attività intellettuale (es. medico che gestisce una clinica, professore titolare di una scuola privata), si è in presenza di due attività distinte. Si applicano entrambe le discipline: quella della professione intellettuale e quella dell'impresa. Ciò non vale però per chi esercita solo la professione, anche con numerosi collaboratori e rilevanti mezzi materiali: finché il professionista esercita personalmente la propria attività, resta tale e non diventa imprenditore.<br><br><strong>Professioni protette vs non protette:</strong> le professioni <em>protette</em> (medici, avvocati, notai, ingegneri, dottori commercialisti, ecc.) sono disciplinate dalla normativa civilistica (artt. 2229-2238 c.c.) e da regolamentazioni specifiche degli ordini professionali. Le professioni <em>non protette</em> sono prive di disciplina specifica.<br><br><strong>Statuto specifico (artt. 2229-2238 c.c.):</strong> potere disciplinare degli ordini professionali (es. sospensione o radiazione dall'albo); divieto di esercizio per i non iscritti agli albi; obbligo di esecuzione personale della prestazione (non delegabile a chi non ha le specifiche competenze); criterio speciale di determinazione del compenso, che deve essere adeguato all'importanza dell'opera e al decoro della professione.<br><br><strong>Ragione dell'esonero:</strong> la scelta del legislatore del 1942 è ispirata dal particolare prestigio sociale tradizionalmente attribuito alle professioni intellettuali, non dalla natura dell'attività svolta (anche i professionisti producono servizi, operano con metodo economico e a scopo di lucro).<br><br><strong>Esonero – vantaggi e svantaggi:</strong> vantaggi: sottrazione alla liquidazione giudiziale. Svantaggi: inapplicabilità della disciplina dell'azienda, dei segni distintivi e della concorrenza sleale. Il moderno esercizio delle professioni (con ingenti capitali, strutture complesse, associazioni e reti multinazionali) rende la scelta del 1942 sempre più anacronistica: in altri Paesi UE questa distinzione è già stata in gran parte superata.`
+  },
+  {
+    prof: ["Masi","Morello","Martucci"],
+    q: "Consorzi: attività interna ed esterna",
+    a: `Il consorzio (art. 2602) è un contratto tra imprenditori per disciplinare o svolgere determinate fasi delle rispettive imprese. <strong>Consorzi interni:</strong> regolano solo i rapporti tra consorziati. <strong>Consorzi esterni:</strong> hanno un ufficio che opera con terzi; prevedono fondo consortile (patrimonio autonomo). Per le obbligazioni del consorzio: in nome del consorzio risponde il fondo; per conto dei singoli rispondono solidalmente il consorziato e il fondo.`,
+    deep: `<strong>Contratto di consorzio:</strong> solo tra imprenditori (legge speciale ammette anche enti di ricerca), forma scritta a pena di nullità, durata libera (default 10 anni). Tendenzialmente aperto a nuovi consorziati se le condizioni sono predeterminate.<br><br><strong>Organi:</strong> assemblea (delibera a maggioranza, modifiche del contratto richiedono unanimità) e organo direttivo (funzioni gestionali e di controllo). Nei consorzi esterni, devono essere iscritte nel registro le persone che hanno presidenza, direzione e rappresentanza.<br><br><strong>Fondo consortile:</strong> patrimonio autonomo rispetto ai singoli consorziati. Solo i creditori del consorzio possono aggredirlo; i creditori personali dei singoli consorziati non possono.<br><br><strong>Società consortili (art. 2615-ter):</strong> gli scopi consortili possono essere perseguiti tramite una società (tutti i tipi tranne la s.s.). Scopo: non distribuzione di utili ma vantaggio patrimoniale diretto ai consorziati (minori costi, maggiori ricavi). Affinità con le cooperative, ma la mutualità consortile è tipicamente imprenditoriale.<br><br><strong>GEIE:</strong> strumento europeo di cooperazione transnazionale. Almeno 2 membri in Stati UE diversi. Privo di personalità giuridica. I membri rispondono solidalmente e illimitatamente (responsabilità sussidiaria). Non ha scopo di profitto proprio.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Impresa sociale",
+    a: `L'impresa sociale (d.lgs. 112/2017) è un ente privato che esercita stabilmente un'attività di interesse generale, senza scopo di lucro, con finalità civica/solidaristica/di utilità sociale. Si iscrive nella sezione speciale del registro. Gli utili devono essere reinvestiti. In caso di insolvenza è soggetta alla liquidazione coatta amministrativa.`,
+    deep: `<strong>Qualifica, non tipo di ente:</strong> l'impresa sociale non è un nuovo tipo, ma una qualifica assumibile da qualsiasi ente privato (associazione, fondazione, società, cooperativa). Non possono essere imprese sociali: PA, società unipersonali di persona fisica, organizzazioni che operano solo per i propri soci.<br><br><strong>Attenuazione del divieto di lucro:</strong> se l'impresa sociale è una società o consorzio, meno della metà degli utili netti annuali può essere destinata a: rivalutazione delle partecipazioni in base al costo della vita, oppure distribuzione di dividendi con limite al tasso dei buoni postali + 2,5%.<br><br><strong>Controlli:</strong> interni (uno o più sindaci) ed esterni (vigilanza del Ministero del Lavoro, che può disporre ispezioni e revocare la qualifica in caso di irregolarità non sanabili, con devoluzione del patrimonio al Fondo per l'impresa sociale).<br><br><strong>Scritture contabili e bilancio sociale:</strong> obbligatori per tutte le imprese sociali, indipendentemente dall'attività. Il bilancio sociale attesta l'osservanza delle finalità sociali.`
+  },
+  {
+    prof: ["Extra"],
+    q: "Enti del Terzo settore e impresa (d.lgs. 117/2017, Codice del Terzo Settore)",
+    a: `Il <strong>Codice del Terzo Settore</strong> (CTS, d.lgs. 117/2017) regola gli enti privati non profit che svolgono attività di <em>interesse generale</em> (assistenza sociale, sanità, istruzione, protezione civile, sport dilettantistico ecc.). Sono ETS: ODV, APS, enti filantropici, reti associative, società di mutuo soccorso, fondazioni del terzo settore e altri enti. Devono iscriversi nel <strong>RUNTS</strong> (Registro Unico Nazionale del Terzo Settore). Obblighi di <strong>scritture contabili e bilancio sociale</strong> per entrate superiori a €100.000/anno. Se svolgono attività d'impresa in forma <strong>non marginale</strong> (entrate da impresa superiori al 30% del totale), sono soggetti alla liquidazione giudiziale. La qualifica ETS è cumulabile con quella di <strong>impresa sociale</strong> (d.lgs. 112/2017).`,
+    deep: `<strong>ETS e qualifica d'imprenditore:</strong> gli ETS possono svolgere attività d'impresa in due modi: <em>(a)</em> come attività principale e non marginale → assumono la qualità di imprenditore ex art. 2082 c.c.; <em>(b)</em> come attività secondaria e marginale (strumentale alle finalità istituzionali) → non sono imprenditori. La distinzione è rilevante per l'applicabilità della liquidazione giudiziale. Il CTS fissa la soglia di "marginalità": entrate da attività d'impresa inferiori al 30% del totale delle entrate dell'ente.<br><br><strong>RUNTS (Registro Unico Nazionale del Terzo Settore):</strong> istituito presso il Ministero del Lavoro, con sezioni gestite dai Centri di Servizio per il Volontariato (CSV). L'iscrizione è obbligatoria per accedere alle agevolazioni fiscali del CTS. Il RUNTS è diverso dal registro delle imprese: non ha la stessa efficacia di pubblicità legale ma serve a qualificare l'ente come ETS per effetti fiscali e sostanziali. Un ETS che svolge attività d'impresa non marginale deve iscriversi anche nel registro delle imprese.<br><br><strong>Scritture contabili e bilancio sociale:</strong> per entrate annue >€100.000: bilancio d'esercizio e bilancio sociale. Per entrate >€220.000: stato patrimoniale, rendiconto gestionale, relazione di missione. Per entrate >€1.000.000: obbligo di revisione legale. La trasparenza contabile è strumentale alla vigilanza ministeriale e alla fiducia del pubblico.<br><br><strong>Impresa sociale vs ETS:</strong> l'impresa sociale (d.lgs. 112/2017) è una qualifica assumibile da qualsiasi ETS che svolga impresa in via principale, con requisiti aggiuntivi: distribuzione utili limitata (non nulla ma vincolata), bilancio sociale obbligatorio, organo di controllo obbligatorio sopra determinate dimensioni. In caso di insolvenza, l'impresa sociale è soggetta a <em>liquidazione coatta amministrativa</em>, non a quella giudiziale. Un ETS non impresa sociale, se svolge attività d'impresa non marginale, soggiace alla liquidazione giudiziale ordinaria.<br><br><strong>Agevolazioni fiscali:</strong> gli ETS beneficiano di: esenzione IRES per attività non commerciali, deducibilità delle erogazioni liberali (art. 83 CTS), regime 5x1000, esenzione da imposte indirette su atti costitutivi e trasferimenti. Le agevolazioni sono condizionate all'iscrizione nel RUNTS e al rispetto dei vincoli del CTS.<br><br><strong>Liquidazione giudiziale degli ETS:</strong> se l'ETS è imprenditore non marginale e supera le soglie dimensionali del CCI, può essere assoggettato alla liquidazione giudiziale. Il CCI non prevede deroghe specifiche per gli ETS (salvo l'applicazione della liquidazione coatta per le imprese sociali). In caso di crisi, gli ETS non impresa sociale possono utilizzare gli strumenti del CCI (composizione negoziata, accordi di ristrutturazione), ma devono ottenere l'autorizzazione del Ministero del Lavoro per atti dispositivi rilevanti del patrimonio.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Ammortamento dei titoli di credito",
+    a: `Procedura per titoli smarriti, rubati o distrutti. Per titoli all'ordine e nominativi: denuncia al debitore + ricorso al tribunale → decreto di ammortamento (pubblicato in Gazzetta Ufficiale) → il titolo perde funzione di legittimazione. Il terzo detentore può opporsi entro 30 giorni. Per titoli al portatore: ammortamento di regola non ammesso (il diritto segue il possesso).`,
+    deep: `<strong>Due fasi:</strong> <em>(1) Fase essenziale:</em> denuncia + ricorso → decreto → pubblicazione in GU → il debitore non è liberato se paga al detentore. <em>(2) Fase eventuale:</em> se il terzo detentore fa opposizione entro 30 gg, si apre un giudizio ordinario sulla proprietà del titolo. Se respinta, il decreto diventa definitivo e il titolo viene consegnato al ricorrente.<br><br><strong>Titoli al portatore – eccezioni:</strong> l'ammortamento è ammesso per alcuni titoli a circolazione ristretta (es. assegni bancari al portatore). In caso di distruzione provata, il possessore può chiedere un duplicato all'emittente. In caso di smarrimento/sottrazione senza prova della distruzione, potrà ottenere la prestazione solo dopo la prescrizione del titolo.`
+  },
+  {
+    prof: ["Martucci"],
+    q: "Imprenditore occulto",
+    a: `Chi esercita l'impresa tramite un prestanome senza rivelarsi ai terzi. La teoria di Bigiavi (inscindibilità potere/responsabilità) non ha prevalso. La giurisprudenza preferisce la tesi dell'<em>impresa fiancheggiatrice</em>: se il dominus finanzia sistematicamente, si ingerisce nella gestione e dirige di fatto una o più società, ciò configura un'autonoma attività d'impresa, esponendolo alla liquidazione giudiziale.`,
+    deep: `<strong>Perché si fa?</strong> Per aggirare divieti (es. incompatibilità) o per non esporre il patrimonio: si costituisce una società con capitale irrisorio (società di comodo), gestita di fatto dal dominus. Se gli affari vanno male, i creditori del prestanome recuperano poco.<br><br><strong>Critica alla teoria di Bigiavi:</strong> contrasta con la responsabilità limitata nelle società di capitali. Un socio di controllo dirige di fatto la società, ma non risponde dei debiti sociali. Accettare l'imprenditore occulto farebbe crollare questo pilastro.<br><br><strong>Soluzione dell'abuso dello schermo societario (Spada):</strong> non serve qualificare il dominus come imprenditore occulto. Basta verificare se sta usando la struttura societaria in modo distorto per sottrarsi alle responsabilità. In caso di abuso, l'ordinamento interviene per reprimerlo.`
+  },
+  {
+    prof: ["Masi"],
+    q: "Excursus dalla legge fallimentare al CCI",
+    a: `La legge fallimentare (1942) aveva approccio punitivo-liquidatorio. Riforme 2005-2012 hanno introdotto concordato preventivo riformato, accordi di ristrutturazione, procedure da sovraindebitamento. Il d.lgs. 14/2019 (CCI) ha riformato integralmente: il "fallimento" diventa "liquidazione giudiziale"; si enfatizza l'emersione anticipata della crisi, la composizione negoziata, il risanamento.`,
+    deep: `<strong>Tappe principali:</strong> d.l. 35/2005 (riforma concordato preventivo, introduzione accordi di ristrutturazione); d.lgs. 5/2006 (riforma del fallimento, abolizione amministrazione controllata); d.lgs. 169/2007 (correzioni); d.l. 83/2012 (ulteriori modifiche concordato); legge 3/2012 (procedure sovraindebitamento). L'insieme di queste riforme d'urgenza ha creato complessità e contraddizioni, motivando la riforma organica del CCI.<br><br><strong>Novità principali del CCI:</strong> nuovo sistema di allerta (auto-vigilanza + segnalazioni esterne), composizione negoziata, piattaforma telematica nazionale, concordato semplificato, piano di ristrutturazione soggetto ad omologazione, procedura unitaria di gruppo, ristrutturazione trasversale (cross-class cram-down), nuova disciplina del rapporto di lavoro nella liquidazione giudiziale.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Titoli astratti e causali",
+    a: `<strong>Astratti:</strong> emessi per qualsiasi rapporto, senza riferimento alla causa (es. cambiale, assegno). Letteralità piena. <strong>Causali:</strong> emessi solo per un rapporto predeterminato per legge (es. azioni, titoli rappresentativi di merci). Letteralità incompleta: il contenuto è integrato dalla disciplina legale del rapporto sottostante.`,
+    deep: `<strong>Rapporto cartolare vs rapporto fondamentale:</strong> il rapporto fondamentale (causale) preesiste (es. una vendita). Sulla base di questo, le parti decidono di incorporare la prestazione nel titolo (convenzione di rilascio). La dichiarazione nel titolo (es. impegno a pagare) è il rapporto cartolare, autonomo dal fondamentale.<br><br><strong>Esempio concreto:</strong> in una vendita con pagamento differito (rapporto causale), il compratore rilascia una cambiale (rapporto cartolare). La cambiale menziona solo l'obbligo di pagare una somma a una scadenza. Il terzo acquirente della cambiale non è soggetto alle eccezioni del rapporto di vendita.<br><br><strong>Titoli rappresentativi di merce:</strong> fede di deposito, polizza di carico, duplicato lettera di vettura. Attribuiscono diritto alla consegna delle merci e possesso delle stesse. Se il vettore/depositario non ha mai ricevuto la merce o è difforme, può opporre l'eccezione al terzo portatore? Controverso: i rischi "ex recepto" dovrebbero ricadere sull'emittente.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Documenti di legittimazione e titoli impropri",
+    a: `<strong>Documenti di legittimazione:</strong> servono solo a identificare il titolare (es. biglietto del treno, scontrino guardaroba). Non sono trasferibili, non incorporano il diritto. <strong>Titoli impropri:</strong> consentono circolazione semplificata (senza notifica) ma con effetti della cessione, non della circolazione cartolare: nessun acquisto a non domino (es. polizza assicurativa all'ordine/al portatore).`,
+    deep: `<strong>Differenza chiave:</strong> nei titoli di credito "propri", la circolazione è regolata dalla legge del titolo e il terzo acquirente in buona fede è tutelato (acquisto a non domino). Nei titoli impropri, la circolazione è agevolata (no notifica), ma il diritto non è autonomo: il debitore può opporre tutte le eccezioni, incluse quelle personali. Nei documenti di legittimazione non c'è neppure circolazione: il documento serve solo a facilitare l'adempimento.<br><br><strong>Art. 2002 c.c.:</strong> a entrambe le figure NON si applica la disciplina dei titoli di credito, salvo l'art. 1992 (funzione di legittimazione), perché entrambe svolgono comunque tale funzione.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Girata nei titoli all'ordine: effetti e girata in garanzia",
+    a: `La girata trasferisce il possesso e il diritto cartolare in modo autonomo. Una serie continua di girate legittima il portatore finale. La <strong>girata in garanzia</strong> (a titolo di pegno) trasferisce il possesso ma non la piena titolarità: il giratario ha un diritto di pegno. Le eccezioni personali verso il girante non sono opponibili al giratario in garanzia.`,
+    deep: `<strong>Girata – regole formali:</strong> deve essere scritta sul titolo, non può essere condizionata (condizioni si considerano non scritte), non può essere parziale (nulla se parziale). Trasferisce integralmente tutti i diritti connessi al titolo.<br><br><strong>Di norma, nessuna funzione di garanzia:</strong> salvo diversa disposizione di legge (es. titoli cambiari), il girante non assume obbligazioni verso i giratari successivi. Il giratario acquista diritto autonomo verso l'emittente.<br><br><strong>Girata per l'incasso (per procura):</strong> il giratario è solo rappresentante del girante. Non acquista diritto autonomo. Può girare ulteriormente solo per procura. Il debitore può opporre al giratario per procura le eccezioni che avrebbe opposto al girante.<br><br><strong>Continuità delle girate:</strong> il nome di ogni girante deve corrispondere al giratario della girata precedente, risalendo al primo prenditore. Il debitore verifica solo la regolarità formale, non l'autenticità delle firme.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Concordato nella liquidazione giudiziale e figura dell'assuntore",
+    a: `Il concordato nella liquidazione giudiziale chiude la procedura con una ristrutturazione dei debiti. Può essere proposto dal debitore, dai creditori o da un terzo. L'<strong>assuntore</strong> è un terzo che si accolla gli obblighi concordatari (accollo cumulativo o liberatorio) in cambio dell'attivo della procedura. Serve approvazione della maggioranza dei creditori e omologazione del tribunale.`,
+    deep: `<strong>Tempistiche:</strong> creditori e terzi possono proporre in qualsiasi momento; il debitore solo dopo 1 anno dall'apertura e non oltre 2 anni dal decreto che rende esecutivo lo stato passivo. La proposta del debitore è ammissibile solo se prevede incremento dell'attivo ≥10%.<br><br><strong>Contenuto flessibile:</strong> pagamento immediato di percentuale (remissorio), diGerito per intero (dilatorio), misto. Possibili anche cessioni di beni, quote societarie, strumenti finanziari, suddivisione in classi. Non è più obbligatorio soddisfare integralmente i privilegiati, ma devono ricevere almeno quanto otterrebbero dalla liquidazione.<br><br><strong>Votazione:</strong> hanno diritto di voto i chirografari ammessi al passivo. I privilegiati non votano se soddisfatti integralmente. Sono esclusi dal voto: coniuge, parenti/affini fino al 4° grado, società collegate, cessionari di crediti "vicini" al debitore. Approvazione: maggioranza dei crediti (se classi: maggioranza delle classi, con maggioranza interna).<br><br><strong>Risoluzione e annullamento:</strong> il concordato può essere risolto per inadempimento o annullato se il passivo era dolosamente gonfiato/l'attivo sottratto. In tal caso la liquidazione riapre.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Effetti della liquidazione giudiziale per i creditori",
+    a: `<strong>Spossessamento:</strong> il debitore perde la disponibilità del patrimonio. <strong>Cristallizzazione:</strong> i crediti si determinano alla data di apertura; crediti a termine diventano esigibili; interessi chirografari sospesi. <strong>Compensazione:</strong> ammessa se entrambi i crediti anteriori; non ammessa se il credito è stato acquistato dopo il deposito della domanda o nell'anno precedente. Creditori: concorsuali, concorrenti (privilegiati, chirografari, postergati), prededucibili (pagati per primi).`,
+    deep: `<strong>Prededucibili:</strong> crediti qualificati da legge + crediti sorti durante la procedura per gestione del patrimonio e continuazione dell'impresa + compensi organi + prestazioni professionali richieste dagli organi. Se certi, liquidi ed esigibili, possono essere pagati man mano, fuori dal riparto. Se l'attivo non basta neppure per i prededucibili, anche loro partecipano al riparto proporzionale (par condicio).<br><br><strong>Eccezioni al divieto di azioni individuali:</strong> creditori con pegno/privilegio speciale + diritto di ritenzione (autorizzati dal giudice alla vendita); creditori con pegno mobiliare non possessorio (dopo ammissione al passivo); banche per credito fondiario/agrario (possono agire sugli immobili ipotecati).<br><br><strong>Ripartizione dell'attivo:</strong> ordine: prededucibili → privilegiati → chirografari → postergati. Il ricavato dei beni gravati da pegno/ipoteca va prima ai relativi creditori garantiti. Il curatore predispone il programma di liquidazione (entro 150 gg), approvato dal comitato creditori. Obiettivo: completare entro 5 anni (prorogabili a 7). Si privilegia la vendita dell'azienda in blocco.`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Stato passivo nella liquidazione giudiziale",
+    a: `Elenco ufficiale dei creditori ammessi al concorso. I creditori presentano domanda di ammissione (via PEC, almeno 30 gg prima dell'udienza). Il curatore redige un progetto di stato passivo. Il giudice delegato lo esamina e lo rende esecutivo con decreto. Contro lo stato passivo: opposizione, impugnazione, revocazione. Domande tardive ammesse entro 6 mesi (prorogabili a 12).`,
+    deep: `<strong>Domanda di rivendicazione:</strong> analoga alla domanda di ammissione, ma per chi chiede restituzione di beni propri detenuti dal debitore (es. beni in deposito). Le decisioni su rivendicazione acquistano forza di giudicato se non impugnate.<br><br><strong>Crediti ammessi con riserva:</strong> crediti il cui riconoscimento è subordinato a una condizione futura o incerta. Il creditore ammesso con riserva può opporsi per ottenere l'ammissione definitiva.<br><br><strong>Domande tardive:</strong> chi non presenta domanda in tempo deve dimostrare che il ritardo non è imputabile a sé. Se il ritardo è imputabile: partecipa solo ai riparti successivi. Se giustificato: ha diritto anche a quanto sarebbe spettato nei precedenti riparti (salvi i diritti di prelazione).<br><br><strong>Impugnazioni:</strong> opposizione (da esclusi, per ottenere ammissione), impugnazione (da ammessi, per contestare altri crediti), revocazione (se emergono fatti nuovi). Entro 30 gg dalla comunicazione. Ricorso in Cassazione possibile (no appello).`
+  },
+  {
+    prof: ["Masi","Morello","Martucci"],
+    q: "Revoca della liquidazione giudiziale",
+    a: `La sentenza di apertura può essere impugnata entro 30 giorni (reclamo alla Corte d'Appello). L'impugnazione non sospende gli effetti, ma la Corte può sospenderli per motivi gravi. Con la revoca, il debitore recupera l'amministrazione; gli atti compiuti durante la procedura restano validi. Il creditore istante risponde dei danni se ha colpa.`,
+    deep: `<strong>Termini:</strong> reclamo entro 30 gg dalla notifica (per le parti) o dalla pubblicazione nel registro (per gli altri). Termine massimo assoluto: 6 mesi dalla pubblicazione della sentenza. Contro la decisione della Corte d'Appello: ricorso in Cassazione entro 30 gg.<br><br><strong>Effetti della revoca:</strong> cessano gli effetti della procedura, ma gli atti già compiuti dagli organi concorsuali (es. vendite di beni) restano validi. Il patrimonio dell'imprenditore può essere stato alterato significativamente. Unico rimedio: azione di risarcimento contro il creditore istante (se in colpa), che paga anche spese di procedura e compenso del curatore.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Piano attestato di risanamento",
+    a: `Il debitore in crisi/insolvenza elabora un piano di risanamento attestato da un professionista indipendente. Non richiede omologazione né intervento del tribunale. <strong>Effetto protettivo:</strong> gli atti compiuti in esecuzione del piano non sono soggetti a revocatoria concorsuale e non configurano bancarotta. Il piano deve avere data certa per essere opponibile.`,
+    deep: `<strong>Contenuto del piano:</strong> descrizione delle cause della crisi, azioni da intraprendere, tempi di attuazione, strumenti per gestire scostamenti, risorse per i creditori estranei alle rinegoziazioni. Può riguardare anche un gruppo di imprese (piano unitario).<br><br><strong>Attestazione del professionista:</strong> deve attestare la veridicità dei dati e la fattibilità del piano. Il professionista deve essere indipendente (iscritto al registro dei revisori o all'albo dei gestori della crisi, non legato all'impresa).<br><br><strong>Pubblicazione facoltativa:</strong> il piano può essere pubblicato nel registro delle imprese su richiesta del debitore. Questo gli permette di mantenere riservata la crisi. Ma attenzione: senza data certa, il piano non è opponibile a una successiva procedura concorsuale.<br><br><strong>Limiti:</strong> il piano è unilaterale, non può modificare rapporti obbligatori senza consenso dei creditori. Per ottenere l'accettazione serve inevitabilmente negoziare → per questo il CCI prevede la composizione negoziata.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Liquidazione giudiziale delle società",
+    a: `Per s.n.c. e s.a.s., la liquidazione della società si estende automaticamente ai soci illimitatamente responsabili (anche occulti, scoperti successivamente). Per società di capitali, colpisce solo la società. Liquidazione di gruppo: procedura unitaria con unico giudice e curatore, ma masse patrimoniali distinte. Revocatoria aggravata per atti infragruppo.`,
+    deep: `<strong>Estensione ai soci:</strong> si applica a soci palesi e occulti di s.n.c., accomandatari di s.a.s. e s.a.p.a., accomandanti che hanno violato il divieto di immistione. NON si estende all'unico quotista di Srl o unico azionista. I soci cessati possono essere assoggettati entro 1 anno dalle formalità di uscita, se l'insolvenza riguarda debiti esistenti alla cessazione della responsabilità.<br><br><strong>Masse distinte:</strong> massa passiva della società (solo creditori sociali) e massa passiva del socio (creditori sociali + personali). Masse attive separate. Il concordato della società chiude anche la procedura dei soci; ciascun socio può proporre concordato particolare.<br><br><strong>Liquidazione di gruppo – strumenti speciali:</strong> revocatoria aggravata (termine raddoppiato a 2 anni per atti anormali infragruppo); revocatoria ordinaria potenziata (atti nei 5 anni precedenti); denunzia al tribunale di irregolarità in altre società del gruppo; azione di responsabilità contro la capogruppo; postergazione aggravata dei finanziamenti infragruppo (downstream e upstream, contratti fino a 1 anno prima).`
+  },
+  {
+    prof: ["Comune","Masi","Morello"],
+    q: "Vendita/affitto azienda in liquidazione giudiziale",
+    a: `Il curatore può vendere o affittare l'azienda per massimizzare il ricavato. L'affitto preserva il valore in attesa della vendita. Il CCI privilegia la vendita in blocco. L'acquirente non risponde dei debiti pregressi (salvo diverso accordo). È possibile concordare con i sindacati il passaggio parziale dei lavoratori.`,
+    deep: `<strong>Affitto d'azienda in liquidazione:</strong> autorizzato dal giudice delegato quando funzionale a una migliore vendita. Il contratto deve prevedere il diritto di recesso del curatore (con equo indennizzo prededucibile). L'affittuario gestisce l'attività e risponde dei propri debiti: la procedura non risponde dei debiti dell'affittuario, neppure per debiti di lavoro. Alla fine dell'affitto, il complesso aziendale "retrocede" alla liquidazione.<br><br><strong>Vendite competitive:</strong> tutte le vendite (mobili e immobili) devono seguire procedure competitive, di regola telematiche, tramite il portale delle vendite pubbliche. Il curatore può avvalersi di professionisti specializzati. Possono essere ceduti anche crediti (inclusi futuri e fiscali) e azioni revocatorie già proposte.<br><br><strong>Programma di liquidazione:</strong> redatto dal curatore entro 150 gg dall'apertura, approvato dal comitato creditori. Il completamento deve essere programmato entro 5 anni (prorogabili a 7). Il curatore può iniziare a liquidare subito dopo l'approvazione, senza attendere l'esecutività dello stato passivo.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Legittimazione nei titoli di credito",
+    a: `La legittimazione abilita il possessore a esercitare il diritto incorporato. Per titoli al portatore: il mero possessore. Per titoli all'ordine: chi possiede con serie continua di girate. Per titoli nominativi: doppia intestazione (titolo + registro). Il debitore è liberato se paga in buona fede al legittimato, anche se non è il vero titolare.`,
+    deep: `<strong>Legittimazione attiva:</strong> il possessore ha diritto alla prestazione presentando il titolo, senza dover provare la proprietà. L'onere di provare il difetto di titolarità grava sul debitore.<br><br><strong>Legittimazione passiva:</strong> il debitore che paga al possessore legittimato senza dolo o colpa grave è liberato, anche se il possessore non è il vero titolare. Questo vale anche quando il debitore sospetta il difetto di titolarità, purché non disponga di prove certe e immediate per contestarlo.<br><br><strong>Dissociazione proprietà/possesso:</strong> può accadere (es. titolo rubato). Il proprietario spossessato può agire in rivendicazione. Per titoli all'ordine e nominativi, può ricorrere all'ammortamento. La dissociazione cessa quando un terzo in buona fede acquista il titolo (art. 1994): prevale la tutela dell'acquirente di buona fede.`
+  },
+  {
+    prof: ["Comune","Masi","Morello","Martucci"],
+    q: "Acquisto a non domino nei titoli di credito",
+    a: `Chi acquista un titolo in buona fede, rispettando le regole di circolazione, acquista il diritto anche se l'alienante non era il legittimo titolare (deroga al principio nemo plus iuris). Serve: (1) rispetto delle forme di circolazione, (2) buona fede, (3) assenza di colpa grave. L'ex proprietario può solo agire per il risarcimento contro chi gli ha sottratto il titolo.`,
+    deep: `<strong>Fondamento (art. 1994 c.c.):</strong> ricalca il principio "possesso vale titolo" dei beni mobili (art. 1153). La ratio è proteggere la sicurezza della circolazione dei titoli di credito, incentivando la fiducia degli operatori economici.<br><br><strong>Circolazione irregolare:</strong> si verifica quando il trasferimento non avviene in forza di un valido negozio (es. titolo rubato). Il ladro non acquista né proprietà né titolarità del diritto, ma è legittimato (può esercitare il diritto e far circolare il titolo). Il proprietario spossessato può agire in rivendicazione. Ma quando il titolo giunge nelle mani di un terzo in buona fede, prevale quest'ultimo.<br><br><strong>Tre condizioni cumulative:</strong> (a) negozio astrattamente idoneo al trasferimento; (b) possesso materiale del titolo; (c) buona fede dell'acquirente al momento dell'acquisto.`
+  }
+];
+
+// ====== APP STATE ======
+let currentMode = 'study';
+let currentTab = 'all';
+let currentSearch = '';
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = { good: 0, ok: 0, bad: 0 };
+
+const TABS = ['Tutte', 'Masi', 'Morello', 'Martucci', 'Comune', 'Extra'];
+
+// ====== INIT ======
+function init() {
+  renderTabs();
+  renderStudy();
+}
+
+// ====== MODE SWITCH ======
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  const study = document.getElementById('studyContainer');
+  const quiz = document.getElementById('quizContainer');
+  
+  if (mode === 'study') {
+    study.classList.remove('hidden');
+    quiz.classList.remove('active');
+  } else {
+    study.classList.add('hidden');
+    quiz.classList.add('active');
+    startQuiz();
+  }
+}
+
+// ====== TABS ======
+function renderTabs() {
+  const container = document.getElementById('tabs');
+  container.innerHTML = TABS.map(t => 
+    `<button class="tab${t === 'Tutte' ? ' active' : ''}" onclick="setTab('${t}')">${t}</button>`
+  ).join('');
+}
+
+function setTab(tab) {
+  currentTab = tab === 'Tutte' ? 'all' : tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderStudy();
+}
+
+// ====== SEARCH ======
+function filterQuestions(val) {
+  currentSearch = val.toLowerCase();
+  renderStudy();
+}
+
+// ====== STUDY MODE ======
+function renderStudy() {
+  const list = document.getElementById('qaList');
+  const statsEl = document.getElementById('stats');
+  
+  let filtered = QA.filter(item => {
+    const matchTab = currentTab === 'all' || item.prof.includes(currentTab);
+    const matchSearch = !currentSearch || 
+      item.q.toLowerCase().includes(currentSearch) || 
+      item.a.toLowerCase().includes(currentSearch);
+    return matchTab && matchSearch;
+  });
+  
+  statsEl.innerHTML = `<span>${filtered.length} domande trovate</span><span class="score">// studio mode</span>`;
+  
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="no-results">Nessun risultato. Prova un\'altra ricerca.</div>';
+    return;
+  }
+  
+  list.innerHTML = filtered.map((item, i) => {
+    const idx = QA.indexOf(item);
+    const profBadges = item.prof.filter(p => p !== 'Comune').map(p => {
+      const cls = p === 'Masi' ? 'badge-masi' : p === 'Morello' ? 'badge-morello' : p === 'Martucci' ? 'badge-martucci' : 'badge-extra';
+      return `<span class="badge ${cls}">${p}</span>`;
+    }).join('');
+    
+    const deepBtn = item.deep ? `<button class="deepdive-btn" onclick="event.stopPropagation(); toggleDeep(${idx})">⚡ Approfondisci</button>` : '';
+    const deepContent = item.deep ? `<div class="deepdive-content" id="deep-${idx}">${item.deep}</div>` : '';
+    
+    return `<div class="qa-item">
+      <div class="qa-header" onclick="toggleAnswer(${idx})">
+        <span class="qa-num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="qa-title">${item.q}${profBadges}</span>
+        <span class="qa-arrow" id="arr-${idx}">▼</span>
+      </div>
+      <div class="qa-answer" id="ans-${idx}">${item.a}${deepBtn}${deepContent}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAnswer(idx) {
+  const ans = document.getElementById('ans-' + idx);
+  const arrow = document.getElementById('arr-' + idx);
+  const isOpen = ans.classList.contains('show');
+  
+  // Close all
+  document.querySelectorAll('.qa-answer').forEach(a => a.classList.remove('show'));
+  document.querySelectorAll('.qa-arrow').forEach(a => a.classList.remove('open'));
+  
+  if (!isOpen) {
+    ans.classList.add('show');
+    arrow.classList.add('open');
+  }
+}
+
+function toggleDeep(idx) {
+  const deep = document.getElementById('deep-' + idx);
+  deep.classList.toggle('show');
+}
+
+// ====== QUIZ MODE ======
+function startQuiz() {
+  let pool = QA.filter(item => {
+    return currentTab === 'all' || item.prof.includes(currentTab);
+  });
+  
+  // Shuffle
+  quizQuestions = pool.sort(() => Math.random() - 0.5).slice(0, Math.min(15, pool.length));
+  quizIndex = 0;
+  quizScore = { good: 0, ok: 0, bad: 0 };
+  renderQuizCard();
+}
+
+function renderQuizCard() {
+  const container = document.getElementById('quizContent');
+  
+  if (quizIndex >= quizQuestions.length) {
+    const total = quizQuestions.length;
+    const pct = Math.round((quizScore.good / total) * 100);
+    container.innerHTML = `
+      <div class="quiz-card">
+        <div class="quiz-score-final">
+          <div class="big">${pct}%</div>
+          <div class="label">Quiz completato &mdash; ${quizQuestions.length} domande</div>
+          <div style="margin-top:1.5rem; font-size:0.8rem; color:var(--text-dim); line-height:1.8">
+            <span style="color:var(--cyan)">✓ Lo so: ${quizScore.good}</span> &nbsp;
+            <span style="color:var(--orange)">~ Così così: ${quizScore.ok}</span> &nbsp;
+            <span style="color:var(--magenta)">✗ Da ripassare: ${quizScore.bad}</span>
+          </div>
+          <button class="quiz-restart-btn" onclick="startQuiz()">Ricomincia</button>
+        </div>
+      </div>`;
+    return;
+  }
+  
+  const q = quizQuestions[quizIndex];
+  const progress = ((quizIndex) / quizQuestions.length) * 100;
+  
+  container.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-progress">
+        Domanda ${quizIndex + 1} di ${quizQuestions.length}
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" style="width:${progress}%"></div>
+        </div>
+      </div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-actions">
+        <button class="quiz-reveal-btn" onclick="revealQuizAnswer()">Mostra risposta</button>
+        <div class="quiz-answer-box" id="quizAns">${q.a}</div>
+        <div class="quiz-rate" id="quizRate">
+          <button class="rate-btn r-good" onclick="rateQuiz('good')">✓ Lo so</button>
+          <button class="rate-btn r-ok" onclick="rateQuiz('ok')">~ Così così</button>
+          <button class="rate-btn r-bad" onclick="rateQuiz('bad')">✗ Da ripassare</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function revealQuizAnswer() {
+  document.getElementById('quizAns').classList.add('show');
+  document.getElementById('quizRate').classList.add('show');
+}
+
+function rateQuiz(rating) {
+  quizScore[rating]++;
+  quizIndex++;
+  renderQuizCard();
+}
+
+// GO
+init();
+</script>
+
+</body>
+</html>
